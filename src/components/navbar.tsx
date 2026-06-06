@@ -95,20 +95,20 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative rounded-full px-3.5 py-2 text-sm transition-colors duration-300",
+                  "relative px-3.5 py-2 text-sm transition-colors duration-300",
                   isActive
-                    ? "text-primary-foreground"
+                    ? "text-primary"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
+                {link.label}
                 {isActive && (
                   <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-primary shadow-[0_4px_22px_-4px_var(--glow)]"
+                    layoutId="nav-underline"
+                    className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-primary shadow-[0_0_8px_var(--glow)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                {link.label}
               </a>
             );
           })}
@@ -187,10 +187,10 @@ export function Navbar() {
                     show: { opacity: 1, x: 0 },
                   }}
                   className={cn(
-                    "rounded-lg px-4 py-3 text-sm transition-colors",
+                    "rounded-lg border-l-2 px-4 py-3 text-sm transition-colors",
                     active === link.id
-                      ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground",
                   )}
                 >
                   {link.label}

@@ -1,54 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 import { cn } from "@/lib/utils";
-import { locales, type Lang } from "@/i18n/config";
 import { useLanguage } from "@/i18n/provider";
 
-const LABEL: Record<Lang, string> = { pt: "PT", en: "EN" };
-const ARIA: Record<Lang, string> = {
-  pt: "Mudar para Português",
-  en: "Switch to English",
-};
-
 export function LanguageToggle({ className }: { className?: string }) {
-  const { lang, setLang } = useLanguage();
+  const { lang, toggle } = useLanguage();
+  const isEn = lang === "en";
 
   return (
-    <div
+    <button
+      type="button"
+      onClick={toggle}
+      role="switch"
+      aria-checked={isEn}
+      aria-label={isEn ? "Switch to Português" : "Mudar para English"}
       className={cn(
-        "relative inline-flex items-center gap-0.5 rounded-full border border-border bg-secondary/40 p-0.5 text-xs font-semibold transition-colors duration-300 hover:border-primary/50",
+        "group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 py-1 pl-1 pr-2.5 transition-colors duration-300 hover:border-primary/60 cursor-pointer",
         className,
       )}
     >
-      {locales.map((l) => {
-        const isActive = lang === l;
-        return (
-          <button
-            key={l}
-            type="button"
-            onClick={() => setLang(l)}
-            aria-label={ARIA[l]}
-            aria-pressed={isActive}
-            className={cn(
-              "relative z-10 cursor-pointer rounded-full px-2.5 py-1 transition-colors duration-300",
-              isActive
-                ? "text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {isActive && (
-              <motion.span
-                layoutId="lang-active"
-                className="absolute inset-0 -z-10 rounded-full bg-primary shadow-[0_3px_14px_-3px_var(--glow)]"
-                transition={{ type: "spring", stiffness: 400, damping: 32 }}
-              />
-            )}
-            {LABEL[l]}
-          </button>
-        );
-      })}
-    </div>
+      {/* símbolo yin-yang: gira 180° conforme o idioma */}
+      <svg
+        viewBox="0 0 100 100"
+        aria-hidden
+        className={cn(
+          "size-6 shrink-0 transition-transform duration-500 ease-out group-hover:scale-110",
+          isEn ? "rotate-180" : "rotate-0",
+        )}
+      >
+        <circle cx="50" cy="50" r="49" fill="var(--muted-foreground)" />
+        <path
+          d="M50,1 a49,49 0 0,1 0,98 a24.5,24.5 0 0,1 0,-49 a24.5,24.5 0 0,0 0,-49 z"
+          fill="var(--primary)"
+        />
+        <circle cx="50" cy="25.5" r="9" fill="var(--muted-foreground)" />
+        <circle cx="50" cy="74.5" r="9" fill="var(--primary)" />
+        <circle
+          cx="50"
+          cy="50"
+          r="48"
+          fill="none"
+          stroke="var(--border)"
+          strokeWidth="2"
+        />
+      </svg>
+      <span className="text-xs font-semibold tabular-nums text-foreground">
+        {lang.toUpperCase()}
+      </span>
+    </button>
   );
 }
