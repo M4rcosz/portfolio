@@ -2,6 +2,7 @@
 
 import { useT } from "@/i18n/provider";
 import { Reveal } from "@/components/reveal";
+import { Parallax } from "@/components/parallax";
 import { SectionHeading } from "@/components/section-heading";
 
 export function About() {
@@ -13,19 +14,22 @@ export function About() {
         <SectionHeading kicker={t.about.kicker} title={t.about.title} />
 
         <div className="mt-14 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-center">
-          <Reveal className="space-y-5">
-            {t.about.paragraphs.map((paragraph, i) => (
-              <p
-                key={i}
-                className="text-lg leading-relaxed text-muted-foreground"
-              >
-                {paragraph}
-              </p>
-            ))}
-          </Reveal>
+          <Parallax x={-22}>
+            <Reveal direction="left" tilt className="space-y-5">
+              {t.about.paragraphs.map((paragraph, i) => (
+                <p
+                  key={i}
+                  className="text-lg leading-relaxed text-muted-foreground"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </Reveal>
+          </Parallax>
 
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-3 gap-4 lg:grid-cols-1">
+          <Parallax x={22}>
+            <Reveal direction="right" tilt delay={0.15}>
+              <div className="grid grid-cols-3 gap-4 lg:grid-cols-1">
               {t.about.highlights.map((highlight) => (
                 <div
                   key={highlight.label}
@@ -39,8 +43,9 @@ export function About() {
                   </div>
                 </div>
               ))}
-            </div>
-          </Reveal>
+              </div>
+            </Reveal>
+          </Parallax>
         </div>
       </div>
     </section>

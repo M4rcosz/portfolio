@@ -30,7 +30,12 @@ export function Skills() {
           {skills.map((group, i) => {
             const Icon = groupIcons[group.id];
             return (
-              <Reveal key={group.id} delay={i * 0.1}>
+              <Reveal
+                key={group.id}
+                delay={i * 0.1}
+                direction={(["left", "up", "right"] as const)[i] ?? "up"}
+                tilt
+              >
                 <div className="glow-ring h-full rounded-xl border border-border bg-card p-6">
                   <div className="flex items-center gap-3">
                     <span className="grid size-10 place-items-center rounded-lg bg-primary/15 text-primary">

@@ -31,7 +31,7 @@ export function Contact() {
           description={t.contact.description}
         />
 
-        <Reveal delay={0.1} className="mt-12">
+        <Reveal direction="up" tilt delay={0.1} className="mt-12">
           <div className="glow-ring rounded-2xl border border-border bg-card p-8 text-center">
             <div className="flex flex-col items-center gap-4">
               <a

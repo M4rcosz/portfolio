@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { LanguageProvider } from "@/i18n/provider";
+import { ParallaxBackground } from "@/components/parallax";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -31,8 +32,10 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <ParallaxBackground />
         <LanguageProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
