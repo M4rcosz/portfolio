@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, CalendarDays, GitCommit } from "lucide-react";
+import { ArrowUpRight, CalendarDays, GitCommit, Tag } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects } from "@/lib/projects";
@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Reveal } from "@/components/reveal";
+import { ScrollReveal3D } from "@/components/parallax";
 import { SectionHeading } from "@/components/section-heading";
 
 export function Projects({
@@ -45,19 +45,15 @@ export function Projects({
           description={t.projects.description}
         />
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
-          {projects.map((project, i) => {
+        <div className="mt-14 flex flex-col gap-8">
+          {projects.map((project) => {
             const stats = project.repoUrl
               ? repoStats[project.repoUrl]
               : undefined;
             const startLabel = stats ? formatStart(stats.startedAt) : null;
 
             return (
-              <Reveal
-                key={project.title}
-                delay={i * 0.1}
-                className={cn(project.featured && "md:col-span-2")}
-              >
+              <ScrollReveal3D key={project.title} from="right">
                 <Card className="group glow-ring flex h-full flex-col hover:-translate-y-1">
                   <CardHeader>
                     <div className="flex items-center justify-between gap-3">
@@ -71,6 +67,14 @@ export function Projects({
 
                     {stats ? (
                       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                        {stats.version ? (
+                          <span className="inline-flex items-center gap-1.5">
+                            <Tag className="size-3.5 text-primary" />
+                            <span className="font-semibold text-foreground">
+                              v{stats.version}
+                            </span>
+                          </span>
+                        ) : null}
                         <span className="inline-flex items-center gap-1.5">
                           <GitCommit className="size-3.5 text-primary" />
                           <span className="font-semibold text-foreground">
@@ -147,7 +151,7 @@ export function Projects({
                     </div>
                   </CardContent>
                 </Card>
-              </Reveal>
+              </ScrollReveal3D>
             );
           })}
         </div>
