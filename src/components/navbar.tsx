@@ -20,7 +20,8 @@ const SECTION_IDS = [
 
 /** Seção atualmente no centro da viewport (scroll-spy). */
 function useActiveSection() {
-  const [active, setActive] = React.useState("");
+  // começa na primeira seção para o sublinhado já aparecer sob "Sobre"
+  const [active, setActive] = React.useState<string>(SECTION_IDS[0]);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
