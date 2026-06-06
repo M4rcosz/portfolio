@@ -1,6 +1,6 @@
 "use client";
 
-import { experiences } from "@/lib/experience";
+import { experiences, formatExperiencePeriod } from "@/lib/experience";
 import { useLanguage } from "@/i18n/provider";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
@@ -19,7 +19,7 @@ export function Experience() {
 
         <div className="mt-14 space-y-6">
           {experiences.map((exp, i) => (
-            <Reveal key={exp.company} delay={i * 0.1}>
+            <Reveal key={exp.company} delay={i * 0.1} direction="left" tilt>
               <div className="glow-ring relative overflow-hidden rounded-xl border border-border bg-card p-6 sm:p-8">
                 {/* faixa de destaque rubra à esquerda */}
                 <span
@@ -33,7 +33,7 @@ export function Experience() {
                     <p className="font-medium text-primary">{exp.company}</p>
                   </div>
                   <Badge variant={exp.current ? "default" : "secondary"}>
-                    {exp.period[lang]}
+                    {formatExperiencePeriod(exp, lang)}
                   </Badge>
                 </div>
 
