@@ -1,4 +1,9 @@
 export const pt = {
+  meta: {
+    title: "Marcos · Desenvolvedor Fullstack",
+    description:
+      "Portfólio de Marcos — desenvolvedor fullstack. Aplicações web do front ao back: interfaces, APIs e infraestrutura.",
+  },
   nav: {
     about: "Sobre",
     experience: "Experiência",

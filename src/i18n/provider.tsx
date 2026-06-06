@@ -1,15 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 
-import { pt, type Dictionary } from "./dictionaries/pt";
-import { en } from "./dictionaries/en";
+import { dictionaries, type Dictionary } from "./dictionaries";
+import { localePath, type Lang } from "./config";
 
-export type Lang = "pt" | "en";
-
-const dictionaries: Record<Lang, Dictionary> = { pt, en };
-
-const STORAGE_KEY = "portfolio-lang";
+const COOKIE = "NEXT_LOCALE";
 
 interface LanguageContextValue {
   lang: Lang;
@@ -20,22 +17,33 @@ interface LanguageContextValue {
 
 const LanguageContext = React.createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = React.useState<Lang>("pt");
+/**
+ * Provider de idioma controlado pela rota: o `lang` vem do segmento [locale].
+ * Trocar de idioma grava um cookie (para o middleware lembrar) e navega para
+ * a URL do outro idioma (pt na raiz, en em /en).
+ */
+export function LanguageProvider({
+  lang,
+  children,
+}: {
+  lang: Lang;
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
 
-  // restaura idioma salvo no primeiro render no cliente
+  // mantém o <html lang> coerente em navegações no cliente (o layout raiz
+  // não re-renderiza ao trocar de rota).
   React.useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
-    if (saved === "pt" || saved === "en") {
-      setLangState(saved);
-    }
-  }, []);
+    document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+  }, [lang]);
 
-  const setLang = React.useCallback((next: Lang) => {
-    setLangState(next);
-    window.localStorage.setItem(STORAGE_KEY, next);
-    document.documentElement.lang = next === "pt" ? "pt-BR" : "en";
-  }, []);
+  const setLang = React.useCallback(
+    (next: Lang) => {
+      document.cookie = `${COOKIE}=${next};path=/;max-age=31536000;samesite=lax`;
+      router.push(localePath(next));
+    },
+    [router],
+  );
 
   const toggle = React.useCallback(() => {
     setLang(lang === "pt" ? "en" : "pt");
@@ -65,3 +73,5 @@ export function useLanguage() {
 export function useT() {
   return useLanguage().t;
 }
+
+export type { Lang } from "./config";

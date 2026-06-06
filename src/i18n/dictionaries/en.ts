@@ -1,6 +1,11 @@
 import type { Dictionary } from "./pt";
 
 export const en: Dictionary = {
+  meta: {
+    title: "Marcos · Fullstack Developer",
+    description:
+      "Marcos's portfolio — fullstack developer. Web apps end to end: interfaces, APIs and infrastructure.",
+  },
   nav: {
     about: "About",
     experience: "Experience",
