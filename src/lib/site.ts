@@ -6,4 +6,6 @@ export const site = {
   email: "zmarcos0103@gmail.com",
   github: "https://github.com/M4rcosz",
   linkedin: "https://www.linkedin.com/in/m4rcosz/",
+  /** caminho do currículo em /public (coloque o PDF aqui). */
+  resume: "/marcos-cv.pdf",
 };

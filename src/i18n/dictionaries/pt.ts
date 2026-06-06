@@ -12,7 +12,7 @@ export const pt = {
     contact: "Contato",
   },
   hero: {
-    badge: "Disponível para novos projetos",
+    badge: "Aberto a oportunidades",
     greeting: "Olá, eu sou",
     name: "Marcos",
     role: "Desenvolvedor Fullstack",
@@ -20,6 +20,7 @@ export const pt = {
       "Construo aplicações web do front ao back — interfaces rápidas e acessíveis, APIs robustas e infraestrutura confiável.",
     ctaProjects: "Ver projetos",
     ctaContact: "Entrar em contato",
+    ctaResume: "Baixar currículo",
   },
   about: {
     kicker: "Sobre mim",
