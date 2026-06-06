@@ -94,7 +94,7 @@ export function Hero() {
           </a>
           <a
             href={site.resume}
-            download
+            download="Marcos-Paulo-CV.pdf"
             className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
           >
             <Download />
