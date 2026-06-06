@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Download, Mail } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
@@ -91,6 +91,14 @@ export function Hero() {
           <a href="#projects" className={cn(buttonVariants({ size: "lg" }))}>
             {t.hero.ctaProjects}
             <ArrowRight />
+          </a>
+          <a
+            href={site.resume}
+            download
+            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+          >
+            <Download />
+            {t.hero.ctaResume}
           </a>
           <a
             href="#contact"

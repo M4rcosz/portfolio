@@ -14,7 +14,7 @@ export const en: Dictionary = {
     contact: "Contact",
   },
   hero: {
-    badge: "Available for new projects",
+    badge: "Open to opportunities",
     greeting: "Hi, I'm",
     name: "Marcos",
     role: "Fullstack Developer",
@@ -22,6 +22,7 @@ export const en: Dictionary = {
       "I build web applications end to end — fast, accessible interfaces, robust APIs and reliable infrastructure.",
     ctaProjects: "View projects",
     ctaContact: "Get in touch",
+    ctaResume: "Download CV",
   },
   about: {
     kicker: "About me",
