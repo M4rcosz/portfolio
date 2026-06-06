@@ -24,27 +24,37 @@ pnpm lint     # eslint
 
 ```
 src/
+  proxy.ts            # detecção de idioma + redirect/rewrite (ex-middleware)
   app/
-    layout.tsx        # fontes Geist, metadata, <LanguageProvider>, Navbar + Footer
-    page.tsx          # monta as seções na ordem
+    layout.tsx        # raiz: <html lang> (do header x-locale), fontes, ParallaxBackground
+    [locale]/
+      layout.tsx      # metadata localizada + <LanguageProvider> + Navbar/Footer
+      page.tsx        # monta as seções na ordem (busca stats do GitHub)
+    icon.svg / apple-icon.png / favicon.ico   # ícones da marca (convenção Next)
     globals.css       # tokens do tema rubro-negro + Tailwind
   components/
+    logo.tsx          # monograma "Mz" (currentColor)
+    parallax.tsx      # Parallax / ParallaxBackground / ScrollReveal3D (scroll-linked)
     ui/               # button, card, badge, separator (estilo shadcn)
     navbar.tsx        # nav fixa + LanguageToggle
     footer.tsx
     language-toggle.tsx
-    reveal.tsx        # wrapper de animação (fade/subida ao entrar na viewport)
+    reveal.tsx        # wrapper de animação (fade/subida + tilt 3D ao entrar na viewport)
     section-heading.tsx
-    sections/         # hero, about, projects, skills, contact
+    sections/         # hero, about, experience, projects, skills, contact
   i18n/
-    provider.tsx      # LanguageProvider (Context) + hooks useLanguage()/useT()
+    config.ts         # locales, defaultLocale (pt), helpers localePath/htmlLang/isLocale
+    provider.tsx      # LanguageProvider (Context, recebe lang da rota) + useLanguage()/useT()
     dictionaries/
-      pt.ts           # textos PT (fonte da verdade do tipo Dictionary)
+      index.ts        # mapa { pt, en }
+      pt.ts           # textos PT (fonte da verdade do tipo Dictionary; inclui meta)
       en.ts           # textos EN (tipado como Dictionary)
   lib/
-    site.ts           # nome + links de contato (email, GitHub, LinkedIn)
-    projects.ts       # dados dos projetos (descrição bilíngue)
+    site.ts           # nome, handle, url + links de contato (email, GitHub, LinkedIn)
+    projects.ts       # dados dos projetos (descrição/highlights bilíngues)
+    experience.ts     # experiência profissional (período dinâmico)
     skills.ts         # grupos de skills (frontend/backend/devops)
+    github.ts         # stats do GitHub (commits, início, versão) via API, com cache
     utils.ts          # cn()
 ```
 
@@ -73,16 +83,20 @@ Use as classes Tailwind `bg-primary`, `text-foreground`, `border-border`, etc. �
 
 ## i18n
 
-Abordagem leve **client-side** (sem rotas `[locale]`): `LanguageProvider` guarda o idioma em
-`localStorage` (`portfolio-lang`). Em componentes client use `useT()` (dicionário ativo) ou
-`useLanguage()` (`{ lang, setLang, toggle, t }`). Para dados bilíngues fora do dicionário (ex.: projetos)
-acesse `obj[lang]`.
+**Roteado por idioma** (a URL muda com o idioma): **pt na raiz `/`** e **en em `/en`**
+(prefixo só quando necessário).
 
-> Upgrade futuro: se SEO multi-idioma com URLs separadas virar prioridade, migrar para `next-intl`
-> com segmento de rota `[locale]`.
+- **Detecção (1ª visita):** `src/proxy.ts` resolve o idioma por **cookie `NEXT_LOCALE` > `Accept-Language` > padrão (pt)**. Redireciona `/`→`/en` quando o idioma é en; senão **reescreve** `/`→`/pt` internamente (a URL pública continua `/`). `/pt` é canonicalizado para `/`. Injeta o idioma no header `x-locale`.
+- **`<html lang>`:** definido no `app/layout.tsx` (raiz) a partir do `x-locale` (render dinâmico).
+- **Metadata localizada:** `app/[locale]/layout.tsx` (`generateMetadata`) gera title/description/OG/`hreflang` por idioma, lendo de `dictionaries[locale].meta`.
+- **No cliente:** `useT()` (dicionário ativo) ou `useLanguage()` (`{ lang, setLang, toggle, t }`). O `lang` vem da rota (prop do provider). O **toggle grava o cookie e navega** para a URL do outro idioma (`/` ou `/en`).
+- Para dados bilíngues fora do dicionário (ex.: projetos) acesse `obj[lang]`.
+
+> Trade-off: o layout raiz usa `headers()` para o `lang`, então a página é **renderizada dinamicamente** (SSR). Os dados do GitHub seguem cacheados no nível do `fetch` (ISR 1h).
 
 ## Convenções
 
 - Componentes que usam estado/hooks/Framer Motion levam `"use client"`.
 - Imports via alias `@/*` (→ `src/*`).
 - Cores sempre via tokens do tema (evite hex solto fora de `globals.css`).
+- **Mensagens de commit sempre em inglês** (Conventional Commits) e **sem linha de co-autor**.

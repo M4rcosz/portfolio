@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="public/brand/marcos-icon-512-black.png" alt="Marcos" width="96" height="96" />
+  <h1>Marcos — Portfolio</h1>
+  <p>
+    Personal portfolio of <strong>Marcos</strong> (<a href="https://github.com/M4rcosz">@m4rcosz</a>),
+    fullstack developer. Single page, red-and-black theme, bilingual <strong>PT-BR / EN</strong>.
+  </p>
+  <p>
+    <a href="https://m4rcosz.com"><strong>m4rcosz.com</strong></a>
+  </p>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+## Stack
+
+- **[Next.js 16](https://nextjs.org)** (App Router) · **React 19** · **TypeScript**
+- **[Tailwind CSS v4](https://tailwindcss.com)** (theme via `@theme` in CSS, no `tailwind.config`)
+- **shadcn/ui**-style components (hand-written in `src/components/ui`)
+- **[Framer Motion](https://www.framer.com/motion/)** for scroll-driven animations
+- **[lucide-react](https://lucide.dev)** icons
+- Package manager: **pnpm**
+
+## Features
+
+- 🎨 **Red-and-black theme** (rubro-negro), dark by default, design tokens in `globals.css`
+- 🌐 **Route-based i18n** — Portuguese at `/`, English at `/en`, with localized `<title>`, `hreflang` and Open Graph. First-visit language is detected from the browser (`Accept-Language`) and remembered via cookie
+- 🪄 **Scroll animations** — continuous 3D parallax background and scroll-linked reveals (respects `prefers-reduced-motion`)
+- 🐙 **GitHub integration** — project cards show live commit count, start date and `package.json` version, fetched server-side and cached (ISR, 1h)
+- 🔖 **Personal brand** — `Mz` monogram logo, favicon, apple icon and social (Open Graph) card
+
+## Getting started
+
+Requires **Node 20+**. Enable pnpm via [corepack](https://nodejs.org/api/corepack.html):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+corepack enable pnpm
+pnpm install
+pnpm dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev      # development server
+pnpm build    # production build
+pnpm start    # serve the production build
+pnpm lint     # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Customizing content
 
-## Learn More
+Everything is data-driven — no need to touch the components:
 
-To learn more about Next.js, take a look at the following resources:
+| What | Where |
+|---|---|
+| Section copy (PT/EN) | `src/i18n/dictionaries/{pt,en}.ts` |
+| Projects | `src/lib/projects.ts` |
+| Professional experience | `src/lib/experience.ts` |
+| Skills | `src/lib/skills.ts` |
+| Name, handle, contact links | `src/lib/site.ts` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> Keep the `pt` and `en` dictionaries in sync — the `Dictionary` type is inferred from `pt.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Internationalization
 
-## Deploy on Vercel
+`src/proxy.ts` resolves the language (**cookie › `Accept-Language` › default `pt`**), redirects
+`/` → `/en` when needed and internally rewrites `/` → `/pt` (the public URL stays `/`). The active
+locale drives `<html lang>`, the metadata and the content. The language toggle writes the cookie
+and navigates to the other URL.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Brand assets
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vectors live in `public/brand/`. Regenerate the PNGs (favicon, apple icon, social card) from the
+SVGs with:
+
+```bash
+node scripts/gen-brand-assets.mjs
+```
+
+See [`BRAND-GUIDE.md`](BRAND-GUIDE.md) for usage rules.
+
+## Deployment
+
+Deploy anywhere that runs Next.js (e.g. [Vercel](https://vercel.com)). Set:
+
+| Env var | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Canonical/OG base URL (defaults to `https://m4rcosz.com`) |
+| `GITHUB_TOKEN` *(optional)* | Raises the GitHub API rate limit from 60 to 5,000 req/h |
+
+---
+
+<div align="center">
+  <sub>Built with Next.js, Tailwind and Framer Motion.</sub>
+</div>
