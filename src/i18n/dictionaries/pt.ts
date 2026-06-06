@@ -20,7 +20,13 @@ export const pt = {
       "Construo aplicações web do front ao back — interfaces rápidas e acessíveis, APIs robustas e infraestrutura confiável.",
     ctaProjects: "Ver projetos",
     ctaContact: "Entrar em contato",
-    ctaResume: "Baixar currículo",
+    ctaResume: "Ver currículo",
+  },
+  resume: {
+    title: "Currículo — Marcos Paulo",
+    download: "Baixar",
+    openTab: "Abrir em nova aba",
+    close: "Fechar",
   },
   about: {
     kicker: "Sobre mim",

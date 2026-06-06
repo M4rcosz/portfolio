@@ -22,7 +22,13 @@ export const en: Dictionary = {
       "I build web applications end to end — fast, accessible interfaces, robust APIs and reliable infrastructure.",
     ctaProjects: "View projects",
     ctaContact: "Get in touch",
-    ctaResume: "Download CV",
+    ctaResume: "View CV",
+  },
+  resume: {
+    title: "Resume — Marcos Paulo",
+    download: "Download",
+    openTab: "Open in new tab",
+    close: "Close",
   },
   about: {
     kicker: "About me",
