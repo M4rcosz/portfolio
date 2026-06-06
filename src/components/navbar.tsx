@@ -5,6 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { useT } from "@/i18n/provider";
+import { Logo } from "@/components/logo";
 import { LanguageToggle } from "@/components/language-toggle";
 
 export function Navbar() {
@@ -36,11 +37,12 @@ export function Navbar() {
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="group flex items-center gap-2 font-semibold">
-          <span className="grid size-8 place-items-center rounded-md bg-primary text-sm font-bold text-primary-foreground shadow-[0_6px_24px_-8px_var(--glow)]">
-            {site.name.charAt(0)}
-          </span>
-          <span className="hidden sm:inline">{site.name}</span>
+        <a
+          href="#top"
+          aria-label={site.name}
+          className="group flex items-center"
+        >
+          <Logo className="h-7 w-auto text-primary transition-transform duration-300 group-hover:scale-105" />
         </a>
 
         <div className="hidden items-center gap-1 md:flex">

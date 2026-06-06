@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 
 import { site } from "@/lib/site";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { Logo } from "@/components/logo";
 import { useT } from "@/i18n/provider";
 
 export function Footer() {
@@ -13,11 +14,16 @@ export function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
-        <div className="text-center text-sm text-muted-foreground sm:text-left">
-          <p>
-            © {year} {site.name}. {t.footer.rights}
-          </p>
-          <p className="mt-1 text-xs">{t.footer.builtWith}</p>
+        <div className="flex flex-col items-center gap-3 sm:items-start">
+          <Logo className="h-6 w-auto text-primary" />
+          <div className="text-center text-sm text-muted-foreground sm:text-left">
+            <p>
+              © {year} {site.name}{" "}
+              <span className="text-muted-foreground/70">@{site.handle}</span>.{" "}
+              {t.footer.rights}
+            </p>
+            <p className="mt-1 text-xs">{t.footer.builtWith}</p>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
