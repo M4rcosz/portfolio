@@ -22,7 +22,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-mt-20 border-t border-border px-4 py-24 sm:px-6"
+      className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-3xl">
         <SectionHeading
@@ -32,11 +32,11 @@ export function Contact() {
         />
 
         <Reveal direction="up" tilt delay={0.1} className="mt-12">
-          <div className="glow-ring rounded-2xl border border-border bg-card p-8 text-center">
+          <div className="glow-ring rounded-2xl border border-border bg-card p-6 text-center sm:p-8">
             <div className="flex flex-col items-center gap-4">
               <a
                 href={`mailto:${site.email}`}
-                className={cn(buttonVariants({ size: "lg" }))}
+                className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
               >
                 <Mail />
                 {t.contact.emailCta}
