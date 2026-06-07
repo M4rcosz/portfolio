@@ -20,8 +20,10 @@ const SECTION_IDS = [
 
 /** Seção atualmente no centro da viewport (scroll-spy). */
 function useActiveSection() {
-  // começa na primeira seção para o sublinhado já aparecer sob "Sobre"
-  const [active, setActive] = React.useState<string>(SECTION_IDS[0]);
+  // No topo (home/hero) começa sem item ativo: como "top" não é um link do
+  // menu, nenhum traço aparece. O sublinhado só surge quando uma das seções
+  // do menu cruza o centro da viewport.
+  const [active, setActive] = React.useState<string>("top");
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,7 +33,8 @@ function useActiveSection() {
       },
       { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
-    SECTION_IDS.forEach((id) => {
+    // observa o hero (#top) também, para o traço sumir ao voltar ao topo
+    ["top", ...SECTION_IDS].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
