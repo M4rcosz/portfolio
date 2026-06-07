@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 
+import { Analytics } from "@vercel/analytics/next";
+
 import "./globals.css";
 import { defaultLocale, htmlLang, isLocale } from "@/i18n/config";
 import { ParallaxBackground } from "@/components/parallax";
@@ -31,6 +33,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ParallaxBackground />
         {children}
+        <Analytics />
       </body>
     </html>
   );
