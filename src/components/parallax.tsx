@@ -8,6 +8,8 @@ import {
 } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 
+import { useIsMobile } from "@/hooks/use-media-query";
+
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
@@ -36,7 +38,11 @@ export function Parallax({
 }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const mobile = useIsMobile();
   const k = reduce ? 0 : 1;
+  // No celular o movimento horizontal/3D causa jitter e corte lateral
+  // (com overflow-x escondido); mantemos só o deslize vertical sutil.
+  const kx = reduce || mobile ? 0 : 1;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -44,9 +50,9 @@ export function Parallax({
   });
 
   const ty = useTransform(scrollYProgress, [0, 1], [y * k, -y * k]);
-  const tx = useTransform(scrollYProgress, [0, 1], [-x * k, x * k]);
-  const rx = useTransform(scrollYProgress, [0, 1], [rotateX * k, -rotateX * k]);
-  const ry = useTransform(scrollYProgress, [0, 1], [-rotateY * k, rotateY * k]);
+  const tx = useTransform(scrollYProgress, [0, 1], [-x * kx, x * kx]);
+  const rx = useTransform(scrollYProgress, [0, 1], [rotateX * kx, -rotateX * kx]);
+  const ry = useTransform(scrollYProgress, [0, 1], [-rotateY * kx, rotateY * kx]);
 
   return (
     <motion.div
@@ -81,31 +87,50 @@ export function ScrollReveal3D({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const mobile = useIsMobile();
   const sign = from === "right" ? 1 : -1;
+  const still = reduce;
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start center"],
+    // no celular a revelação termina mais cedo para não exigir rolar
+    // o card inteiro até o centro antes de aparecer.
+    offset: mobile ? ["start end", "center center"] : ["start end", "start center"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [260 * sign, 0]);
+  // No celular: nada de voo horizontal/3D (corta na lateral). Só um
+  // fade + leve subida vertical, mais elegante em telas estreitas.
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    still || mobile ? [0, 0] : [260 * sign, 0],
+  );
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    still ? [0, 0] : mobile ? [40, 0] : [0, 0],
+  );
   const rotateY = useTransform(
     scrollYProgress,
     [0, 1],
-    reduce ? [0, 0] : [-34 * sign, 0],
+    still || mobile ? [0, 0] : [-34 * sign, 0],
   );
-  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [0.9, 1]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    still ? [1, 1] : mobile ? [0.96, 1] : [0.9, 1],
+  );
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.6, 1],
-    reduce ? [1, 1, 1] : [0, 1, 1],
+    still ? [1, 1, 1] : [0, 1, 1],
   );
 
   return (
     <motion.div
       ref={ref}
       className={className}
-      style={{ x, rotateY, scale, opacity, transformPerspective: 1200 }}
+      style={{ x, y, rotateY, scale, opacity, transformPerspective: 1200 }}
     >
       {children}
     </motion.div>

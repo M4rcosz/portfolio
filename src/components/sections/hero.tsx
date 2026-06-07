@@ -87,7 +87,7 @@ export function Hero() {
 
         <motion.div
           variants={item}
-          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          className="mt-10 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center [&>*]:w-full sm:[&>*]:w-auto"
         >
           <a href="#projects" className={cn(buttonVariants({ size: "lg" }))}>
             {t.hero.ctaProjects}

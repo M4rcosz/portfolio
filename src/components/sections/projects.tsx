@@ -36,7 +36,7 @@ export function Projects({
   return (
     <section
       id="projects"
-      className="scroll-mt-20 border-t border-border px-4 py-24 sm:px-6"
+      className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
@@ -45,7 +45,7 @@ export function Projects({
           description={t.projects.description}
         />
 
-        <div className="mt-14 flex flex-col gap-8">
+        <div className="mt-12 flex flex-col gap-6 sm:mt-14 sm:gap-8">
           {projects.map((project) => {
             const stats = project.repoUrl
               ? repoStats[project.repoUrl]

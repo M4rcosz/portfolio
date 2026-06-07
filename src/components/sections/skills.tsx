@@ -18,7 +18,7 @@ export function Skills() {
   const t = useT();
 
   return (
-    <section id="skills" className="scroll-mt-20 px-4 py-24 sm:px-6">
+    <section id="skills" className="scroll-mt-20 px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-5xl">
         <SectionHeading
           kicker={t.skills.kicker}
@@ -26,7 +26,7 @@ export function Skills() {
           description={t.skills.description}
         />
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-3">
           {skills.map((group, i) => {
             const Icon = groupIcons[group.id];
             return (

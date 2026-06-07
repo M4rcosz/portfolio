@@ -82,6 +82,11 @@
 
 html {
   scroll-behavior: smooth;
+  /* Trava o scroll horizontal já na raiz: sem isso, um overflow lateral
+     (parallax/animações) expande a viewport de layout no mobile e empurra
+     o cabeçalho fixo para fora da tela — deixando o botão do menu
+     inacessível. Precisa estar no <html>, não só no <body>. */
+  overflow-x: hidden;
 }
 
 body {

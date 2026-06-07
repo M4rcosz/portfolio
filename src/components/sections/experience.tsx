@@ -12,12 +12,12 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="scroll-mt-20 border-t border-border px-4 py-24 sm:px-6"
+      className="scroll-mt-20 border-t border-border px-4 py-20 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-4xl">
         <SectionHeading kicker={t.experience.kicker} title={t.experience.title} />
 
-        <div className="mt-14 space-y-6">
+        <div className="mt-12 space-y-6 sm:mt-14">
           {experiences.map((exp, i) => (
             <Reveal key={exp.company} delay={i * 0.1} direction="left" tilt>
               <div className="glow-ring relative overflow-hidden rounded-xl border border-border bg-card p-6 sm:p-8">
