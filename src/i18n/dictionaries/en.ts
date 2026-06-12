@@ -16,7 +16,7 @@ export const en: Dictionary = {
   hero: {
     badge: "Open to opportunities",
     greeting: "Hi, I'm",
-    name: "Marcos",
+    name: "Marcos Paulo",
     role: "Backend Developer",
     description:
       "I design and build what runs behind the scenes: robust APIs, clean architecture, well-modeled data and integrations that don't fall over when the real world shows up.",

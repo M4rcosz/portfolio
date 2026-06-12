@@ -136,16 +136,16 @@ export function Navbar() {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={cn(
-                  "relative rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300",
+                  "relative px-3.5 py-2 text-sm transition-colors duration-300",
                   isActive
-                    ? "text-foreground"
+                    ? "text-primary"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {isActive && (
                   <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 -z-10 rounded-full border border-primary/30 bg-primary/10 shadow-[0_0_12px_var(--glow)]"
+                    layoutId="nav-underline"
+                    className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-primary shadow-[0_0_8px_var(--glow)]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}

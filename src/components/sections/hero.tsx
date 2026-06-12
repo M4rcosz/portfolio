@@ -73,7 +73,19 @@ export function Hero() {
             variants={item}
             className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl"
           >
-            <span className="text-gradient-red">{t.hero.name}</span>
+            {/* primeiro nome em gradiente animado, sobrenome em outline rubro */}
+            <span className="text-gradient-red text-gradient-animated">
+              {t.hero.name.split(" ")[0]}
+            </span>
+            {t.hero.name.includes(" ") ? (
+              <>
+                {" "}
+                <span className="text-outline-red">
+                  {t.hero.name.split(" ").slice(1).join(" ")}
+                </span>
+              </>
+            ) : null}
+            <span className="text-primary">.</span>
           </motion.h1>
 
           <motion.p

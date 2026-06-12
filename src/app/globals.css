@@ -111,6 +111,33 @@ body {
   color: transparent;
 }
 
+/* varredura lenta do gradiente do nome (hero) */
+.text-gradient-animated {
+  background-size: 200% 100%;
+  animation: gradient-pan 5s ease-in-out infinite alternate;
+}
+
+@keyframes gradient-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* sobrenome vazado: só o contorno, em rubro */
+.text-outline-red {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-animated {
+    animation: none;
+  }
+}
+
 .glow-ring {
   box-shadow: 0 0 0 1px var(--border), 0 8px 40px -12px var(--glow);
 }
