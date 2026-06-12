@@ -14,7 +14,7 @@ export const pt = {
   hero: {
     badge: "Aberto a oportunidades",
     greeting: "Olá, eu sou",
-    name: "Marcos Paulo",
+    name: "Marcos",
     role: "Desenvolvedor Backend",
     description:
       "Projeto e construo o que roda por trás: APIs robustas, arquitetura limpa, dados bem modelados e integrações que não caem quando o mundo real chega.",
