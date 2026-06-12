@@ -8,6 +8,7 @@ import { site } from "@/lib/site";
 import { buttonVariants } from "@/components/ui/button";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { ResumePreview } from "@/components/resume-preview";
+import { TerminalCard } from "@/components/terminal-card";
 import { useT } from "@/i18n/provider";
 
 const container = {
@@ -26,8 +27,11 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pt-16 sm:px-6"
+      className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-16 pt-24 sm:px-6 lg:pb-0 lg:pt-16"
     >
+      {/* grade sutil de fundo, estética de engenharia */}
+      <div aria-hidden className="bg-grid pointer-events-none absolute inset-0 -z-10" />
+
       {/* glow rubro animado */}
       <motion.div
         aria-hidden
@@ -40,99 +44,113 @@ export function Hero() {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="mx-auto w-full max-w-4xl text-center"
-      >
-        <motion.span
-          variants={item}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-4 py-1.5 text-xs font-medium text-muted-foreground"
-        >
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-primary" />
-          </span>
-          {t.hero.badge}
-        </motion.span>
-
-        <motion.p
-          variants={item}
-          className="mt-8 text-base text-muted-foreground sm:text-lg"
-        >
-          {t.hero.greeting}
-        </motion.p>
-
-        <motion.h1
-          variants={item}
-          className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl"
-        >
-          <span className="text-gradient-red">{t.hero.name}</span>
-        </motion.h1>
-
-        <motion.p
-          variants={item}
-          className="mt-4 text-xl font-semibold text-foreground sm:text-2xl"
-        >
-          {t.hero.role}
-        </motion.p>
-
-        <motion.p
-          variants={item}
-          className="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg"
-        >
-          {t.hero.description}
-        </motion.p>
-
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <motion.div
-          variants={item}
-          className="mt-10 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center [&>*]:w-full sm:[&>*]:w-auto"
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="text-center lg:text-left"
         >
-          <a href="#projects" className={cn(buttonVariants({ size: "lg" }))}>
-            {t.hero.ctaProjects}
-            <ArrowRight />
-          </a>
-          <ResumePreview />
-          <a
-            href="#contact"
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+          <motion.span
+            variants={item}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-4 py-1.5 text-xs font-medium text-muted-foreground"
           >
-            {t.hero.ctaContact}
-          </a>
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-primary" />
+            </span>
+            {t.hero.badge}
+          </motion.span>
+
+          <motion.p
+            variants={item}
+            className="mt-8 text-base text-muted-foreground sm:text-lg"
+          >
+            {t.hero.greeting}
+          </motion.p>
+
+          <motion.h1
+            variants={item}
+            className="mt-2 text-5xl font-bold tracking-tight sm:text-7xl"
+          >
+            <span className="text-gradient-red">{t.hero.name}</span>
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-4 font-mono text-lg font-semibold text-foreground sm:text-xl"
+          >
+            <span className="select-none text-primary">&gt; </span>
+            {t.hero.role}
+            <span aria-hidden className="cursor-blink ml-1 text-primary">
+              ▍
+            </span>
+          </motion.p>
+
+          <motion.p
+            variants={item}
+            className="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0"
+          >
+            {t.hero.description}
+          </motion.p>
+
+          <motion.div
+            variants={item}
+            className="mt-10 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center lg:justify-start [&>*]:w-full sm:[&>*]:w-auto"
+          >
+            <a href="#projects" className={cn(buttonVariants({ size: "lg" }))}>
+              {t.hero.ctaProjects}
+              <ArrowRight />
+            </a>
+            <ResumePreview />
+            <a
+              href="#contact"
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+            >
+              {t.hero.ctaContact}
+            </a>
+          </motion.div>
+
+          <motion.div
+            variants={item}
+            className="mt-10 flex items-center justify-center gap-4 text-muted-foreground lg:justify-start"
+          >
+            <a
+              href={site.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="transition-colors hover:text-primary"
+            >
+              <GithubIcon className="size-5" />
+            </a>
+            <a
+              href={site.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="transition-colors hover:text-primary"
+            >
+              <LinkedinIcon className="size-5" />
+            </a>
+            <a
+              href={`mailto:${site.email}`}
+              aria-label="Email"
+              className="transition-colors hover:text-primary"
+            >
+              <Mail className="size-5" />
+            </a>
+          </motion.div>
         </motion.div>
 
         <motion.div
-          variants={item}
-          className="mt-10 flex items-center justify-center gap-4 text-muted-foreground"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="transition-colors hover:text-primary"
-          >
-            <GithubIcon className="size-5" />
-          </a>
-          <a
-            href={site.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="transition-colors hover:text-primary"
-          >
-            <LinkedinIcon className="size-5" />
-          </a>
-          <a
-            href={`mailto:${site.email}`}
-            aria-label="Email"
-            className="transition-colors hover:text-primary"
-          >
-            <Mail className="size-5" />
-          </a>
+          <TerminalCard />
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

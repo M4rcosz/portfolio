@@ -15,7 +15,8 @@ export function SectionHeading({
   return (
     <Parallax y={-28}>
       <Reveal className="mx-auto max-w-2xl text-center">
-      <span className="text-sm font-semibold uppercase tracking-widest text-primary">
+      <span className="font-mono text-sm font-semibold tracking-widest text-primary">
+        <span aria-hidden className="select-none opacity-60">{"// "}</span>
         {kicker}
       </span>
       <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">

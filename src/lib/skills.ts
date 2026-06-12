@@ -1,34 +1,56 @@
-export type SkillGroupId = "frontend" | "backend" | "devops";
+export type SkillGroupId =
+  | "backend"
+  | "data"
+  | "architecture"
+  | "devops"
+  | "frontend";
 
 export interface SkillGroup {
   id: SkillGroupId;
   items: string[];
+  /** grupo principal: card em largura total com destaque visual. */
+  featured?: boolean;
 }
 
 /**
  * Edite com as tecnologias que você usa. Os rótulos dos grupos
- * (Frontend / Backend / DevOps) ficam nos dicionários de i18n.
+ * ficam nos dicionários de i18n (`skills.groups`).
  */
 export const skills: SkillGroup[] = [
   {
-    id: "frontend",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-  },
-  {
     id: "backend",
+    featured: true,
     items: [
       "Node.js",
       "NestJS",
-      "Python",
       "Express",
-      "PostgreSQL",
-      "Prisma",
+      "TypeScript",
+      "Python",
       "REST",
       "GraphQL",
     ],
   },
   {
+    id: "data",
+    items: ["PostgreSQL", "Prisma", "SQL"],
+  },
+  {
+    id: "architecture",
+    items: [
+      "Clean Architecture",
+      "DDD",
+      "Repository Pattern",
+      "Jest",
+      "Webhooks",
+      "Idempotency",
+    ],
+  },
+  {
     id: "devops",
-    items: ["Docker", "Git", "CI/CD", "Vercel", "Linux"],
+    items: ["Docker", "Git", "CI/CD", "Linux", "Vercel"],
+  },
+  {
+    id: "frontend",
+    items: ["React", "Next.js", "Tailwind CSS"],
   },
 ];
