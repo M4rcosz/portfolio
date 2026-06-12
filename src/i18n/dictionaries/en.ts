@@ -2,9 +2,9 @@ import type { Dictionary } from "./pt";
 
 export const en: Dictionary = {
   meta: {
-    title: "Marcos · Fullstack Developer",
+    title: "Marcos · Backend Developer",
     description:
-      "Marcos's portfolio — fullstack developer. Web apps end to end: interfaces, APIs and infrastructure.",
+      "Marcos's portfolio — backend developer. Robust APIs, clean architecture, data modeling and integrations that survive the real world.",
   },
   nav: {
     about: "About",
@@ -17,12 +17,24 @@ export const en: Dictionary = {
     badge: "Open to opportunities",
     greeting: "Hi, I'm",
     name: "Marcos",
-    role: "Fullstack Developer",
+    role: "Backend Developer",
     description:
-      "I build web applications end to end — fast, accessible interfaces, robust APIs and reliable infrastructure.",
+      "I design and build what runs behind the scenes: robust APIs, clean architecture, well-modeled data and integrations that don't fall over when the real world shows up.",
     ctaProjects: "View projects",
     ctaContact: "Get in touch",
     ctaResume: "View CV",
+    terminal: {
+      filename: "marcos@backend: ~",
+      command: "curl -s https://m4rcosz.com/api/dev",
+      response: {
+        name: "Marcos",
+        role: "backend_developer",
+        stack: ["node", "nestjs", "postgresql"],
+        focus: ["apis", "clean_architecture", "ddd"],
+        status: "open_to_work",
+      },
+      statusLine: "200 OK · 12ms",
+    },
   },
   resume: {
     title: "Resume — Marcos Paulo",
@@ -31,48 +43,51 @@ export const en: Dictionary = {
     close: "Close",
   },
   about: {
-    kicker: "About me",
-    title: "Who's behind the code",
+    kicker: "about-me",
+    title: "Who's behind the server",
     paragraphs: [
-      "I'm a fullstack developer who loves turning ideas into complete digital products. I work across every layer: from interface design to data modeling and deployment.",
-      "I care about clean code, performance and experiences people actually want to use. I'm always learning and experimenting with new technologies.",
+      "I'm a backend developer focused on building the part nobody sees but everybody feels: REST and GraphQL APIs, well-isolated business rules and databases that tell the truth. I work with Node.js, NestJS and PostgreSQL, applying Clean Architecture and DDD so the code stays changeable years after deploy.",
+      "I enjoy the hard backend problems — idempotency, concurrency, money as decimals, webhooks as the source of truth — and Python automations that give hours back to the team. I'm always learning and shipping what I learn to production.",
     ],
     highlights: [
-      { value: "Fullstack", label: "Front, back and automation" },
-      { value: "APIs", label: "REST, GraphQL and integrations" },
-      { value: "∞", label: "Eager to learn" },
+      { value: "APIs", label: "REST, GraphQL and webhooks" },
+      { value: "Architecture", label: "Clean Architecture & DDD" },
+      { value: "Data", label: "PostgreSQL, SQL and modeling" },
     ],
   },
   experience: {
-    kicker: "Career",
+    kicker: "career",
     title: "Professional experience",
   },
   projects: {
-    kicker: "Portfolio",
+    kicker: "portfolio",
     title: "Featured projects",
     description:
-      "Projects I've built, focused on architecture, quality and best practices.",
+      "Backends I've built, focused on architecture, data consistency and best practices.",
     featured: "Featured",
     since: "since",
     demo: "Demo",
     code: "Code",
   },
   skills: {
-    kicker: "Stack",
+    kicker: "stack",
     title: "Technologies I use",
     description:
-      "Tools and languages I work with day to day, from the frontend to infrastructure.",
+      "My day-to-day toolbox — from the endpoint to the database, through the infrastructure.",
+    core: "core",
     groups: {
-      frontend: "Frontend",
       backend: "Backend",
+      data: "Databases",
+      architecture: "Architecture & Quality",
       devops: "DevOps & Tools",
+      frontend: "Frontend",
     },
   },
   contact: {
-    kicker: "Contact",
+    kicker: "contact",
     title: "Let's talk",
     description:
-      "Got a project in mind or just want to chat? My inbox is always open.",
+      "Got a project in mind or want to talk backend? My inbox is always open.",
     emailCta: "Send email",
   },
   footer: {

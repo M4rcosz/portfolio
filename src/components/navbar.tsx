@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Mail, Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { useT } from "@/i18n/provider";
 import { Logo } from "@/components/logo";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { LanguageToggle } from "@/components/language-toggle";
 
 const SECTION_IDS = [
@@ -18,10 +19,13 @@ const SECTION_IDS = [
   "contact",
 ] as const;
 
+/** duração do colapso do menu mobile (precisa casar com o exit abaixo). */
+const MOBILE_MENU_EXIT_MS = 250;
+
 /** Seção atualmente no centro da viewport (scroll-spy). */
 function useActiveSection() {
   // No topo (home/hero) começa sem item ativo: como "top" não é um link do
-  // menu, nenhum traço aparece. O sublinhado só surge quando uma das seções
+  // menu, nenhum traço aparece. O destaque só surge quando uma das seções
   // do menu cruza o centro da viewport.
   const [active, setActive] = React.useState<string>("top");
 
@@ -33,7 +37,7 @@ function useActiveSection() {
       },
       { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
-    // observa o hero (#top) também, para o traço sumir ao voltar ao topo
+    // observa o hero (#top) também, para o destaque sumir ao voltar ao topo
     ["top", ...SECTION_IDS].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -66,6 +70,38 @@ export function Navbar() {
     { href: "#contact", id: "contact", label: t.nav.contact },
   ];
 
+  const scrollToSection = React.useCallback((href: string) => {
+    const el = document.getElementById(href.slice(1));
+    if (!el) return;
+    // scrollIntoView respeita o scroll-mt-20 das seções
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", href);
+  }, []);
+
+  /**
+   * Navegação programática no lugar da âncora nativa: no mobile, o scroll
+   * suave nativo é cancelado pelo colapso animado do painel do menu — então
+   * fechamos o menu primeiro e só depois rolamos até a seção.
+   */
+  const handleNavClick = React.useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      if (open) {
+        setOpen(false);
+        window.setTimeout(() => scrollToSection(href), MOBILE_MENU_EXIT_MS + 30);
+      } else {
+        scrollToSection(href);
+      }
+    },
+    [open, scrollToSection],
+  );
+
+  const socials = [
+    { href: site.github, label: "GitHub", icon: GithubIcon },
+    { href: site.linkedin, label: "LinkedIn", icon: LinkedinIcon },
+    { href: `mailto:${site.email}`, label: "Email", icon: Mail },
+  ];
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
@@ -73,7 +109,7 @@ export function Navbar() {
       transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled
+        scrolled || open
           ? "border-b border-border/70 bg-background/70 backdrop-blur-xl"
           : "border-b border-transparent",
       )}
@@ -84,20 +120,21 @@ export function Navbar() {
           href="#top"
           aria-label={site.name}
           className="group relative flex items-center"
-          onClick={() => setOpen(false)}
+          onClick={(e) => handleNavClick(e, "#top")}
         >
           <span className="absolute -inset-2 -z-10 rounded-full bg-primary/25 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100" />
           <Logo className="h-7 w-auto text-primary transition-transform duration-300 group-hover:scale-110" />
         </a>
 
-        {/* links desktop com pílula ativa deslizante */}
+        {/* links desktop: numerados (estética de código) + pílula deslizante */}
         <div className="hidden items-center gap-1 md:flex">
-          {links.map((link) => {
+          {links.map((link, i) => {
             const isActive = active === link.id;
             return (
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={cn(
                   "relative px-3.5 py-2 text-sm transition-colors duration-300",
                   isActive
@@ -105,7 +142,6 @@ export function Navbar() {
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {link.label}
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
@@ -113,6 +149,16 @@ export function Navbar() {
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "mr-1.5 font-mono text-[11px] transition-colors duration-300",
+                    isActive ? "text-primary" : "text-primary/50",
+                  )}
+                >
+                  0{i + 1}
+                </span>
+                {link.label}
               </a>
             );
           })}
@@ -169,7 +215,7 @@ export function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: MOBILE_MENU_EXIT_MS / 1000, ease: "easeInOut" }}
             className="overflow-hidden border-b border-border bg-background/95 backdrop-blur-xl md:hidden"
           >
             <motion.div
@@ -181,25 +227,60 @@ export function Navbar() {
                 show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
               }}
             >
-              {links.map((link) => (
+              {links.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   variants={{
                     hidden: { opacity: 0, x: -16 },
                     show: { opacity: 1, x: 0 },
                   }}
                   className={cn(
-                    "rounded-lg border-l-2 px-4 py-3 text-sm transition-colors",
+                    "flex items-baseline gap-3 rounded-lg border-l-2 px-4 py-3 text-base transition-colors",
                     active === link.id
-                      ? "border-primary text-primary"
+                      ? "border-primary bg-primary/10 text-primary"
                       : "border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground",
                   )}
                 >
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "font-mono text-xs",
+                      active === link.id ? "text-primary" : "text-primary/50",
+                    )}
+                  >
+                    0{i + 1}
+                  </span>
                   {link.label}
                 </motion.a>
               ))}
+
+              {/* socials no rodapé do menu */}
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, x: -16 },
+                  show: { opacity: 1, x: 0 },
+                }}
+                className="mt-3 flex items-center gap-2 border-t border-border px-4 pt-4"
+              >
+                {socials.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target={social.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      social.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    aria-label={social.label}
+                    className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                  >
+                    <social.icon className="size-4" />
+                  </a>
+                ))}
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
