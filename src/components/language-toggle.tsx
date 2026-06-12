@@ -1,52 +1,90 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { useLanguage } from "@/i18n/provider";
+import { motion, useReducedMotion } from "framer-motion";
 
-export function LanguageToggle({ className }: { className?: string }) {
-  const { lang, toggle } = useLanguage();
-  const isEn = lang === "en";
+import { cn } from "@/lib/utils";
+import { useLanguage, type Lang } from "@/i18n/provider";
+
+const OPTIONS: { value: Lang; label: string }[] = [
+  { value: "pt", label: "PT" },
+  { value: "en", label: "EN" },
+];
+
+const thumbSpring = { type: "spring", stiffness: 500, damping: 28 } as const;
+
+/** Letras que "rolam" de baixo para cima quando o idioma muda. */
+function RollingLabel({ label, roll }: { label: string; roll: string }) {
+  const reduced = useReducedMotion() ?? false;
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      role="switch"
-      aria-checked={isEn}
-      aria-label={isEn ? "Switch to Português" : "Mudar para English"}
+    <span aria-hidden className="block overflow-hidden">
+      {label.split("").map((char, i) => (
+        <motion.span
+          // a key muda a cada troca de idioma → as letras remontam e rolam
+          key={`${roll}-${i}`}
+          initial={reduced ? false : { y: "120%", opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            delay: i * 0.06,
+            type: "spring",
+            stiffness: 420,
+            damping: 26,
+          }}
+          className="inline-block"
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+/**
+ * Controle segmentado PT | EN: o "thumb" rubro desliza com mola entre os
+ * segmentos (layoutId) e as letras rolam a cada troca de idioma.
+ */
+export function LanguageToggle({ className }: { className?: string }) {
+  const { lang, setLang } = useLanguage();
+
+  return (
+    <div
+      role="group"
+      aria-label="Idioma / Language"
       className={cn(
-        "group inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 py-1 pl-1 pr-2.5 transition-colors duration-300 hover:border-primary/60 cursor-pointer",
+        "relative inline-flex items-center rounded-full border border-border bg-secondary/40 p-1 font-mono text-[11px] font-semibold",
         className,
       )}
     >
-      {/* símbolo yin-yang: gira 180° conforme o idioma */}
-      <svg
-        viewBox="0 0 100 100"
-        aria-hidden
-        className={cn(
-          "size-6 shrink-0 transition-transform duration-500 ease-out group-hover:scale-110",
-          isEn ? "rotate-180" : "rotate-0",
-        )}
-      >
-        <circle cx="50" cy="50" r="49" fill="var(--muted-foreground)" />
-        <path
-          d="M50,1 a49,49 0 0,1 0,98 a24.5,24.5 0 0,1 0,-49 a24.5,24.5 0 0,0 0,-49 z"
-          fill="var(--primary)"
-        />
-        <circle cx="50" cy="25.5" r="9" fill="var(--muted-foreground)" />
-        <circle cx="50" cy="74.5" r="9" fill="var(--primary)" />
-        <circle
-          cx="50"
-          cy="50"
-          r="48"
-          fill="none"
-          stroke="var(--border)"
-          strokeWidth="2"
-        />
-      </svg>
-      <span className="text-xs font-semibold tabular-nums text-foreground">
-        {lang.toUpperCase()}
-      </span>
-    </button>
+      {OPTIONS.map((option) => {
+        const isActive = lang === option.value;
+        return (
+          <motion.button
+            key={option.value}
+            type="button"
+            onClick={() => setLang(option.value)}
+            aria-pressed={isActive}
+            aria-label={option.value === "pt" ? "Português" : "English"}
+            whileTap={{ scale: 0.92 }}
+            className={cn(
+              "relative cursor-pointer rounded-full px-2.5 py-1 tracking-wider transition-colors duration-300",
+              isActive
+                ? "text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {isActive ? (
+              <motion.span
+                layoutId="lang-thumb"
+                transition={thumbSpring}
+                className="absolute inset-0 rounded-full bg-primary shadow-[0_0_14px_var(--glow)]"
+              />
+            ) : null}
+            <span className="relative z-10">
+              <RollingLabel label={option.label} roll={lang} />
+            </span>
+          </motion.button>
+        );
+      })}
+    </div>
   );
 }
