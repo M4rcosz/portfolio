@@ -9,7 +9,15 @@ export interface Project {
   highlights?: Record<Lang, string[]>;
   demoUrl?: string;
   repoUrl?: string;
-  /** destaque visual: card ocupa a largura toda no grid. */
+  /** branch/ref para ler stats do GitHub (default: branch default do repo). */
+  repoRef?: string;
+  /** link para documentação/Swagger da API. */
+  docsUrl?: string;
+  /** URL para preview em iframe ao vivo (clicável). */
+  previewUrl?: string;
+  /** rótulo de status por idioma (ex.: transição/WIP). */
+  statusBadge?: Record<Lang, string>;
+  /** destaque visual: exibe o badge "Destaque" e prioriza o projeto na lista. */
   featured?: boolean;
 }
 
@@ -18,6 +26,7 @@ export interface Project {
  * `description` e `highlights` aceitam os dois idiomas (pt / en).
  */
 export const projects: Project[] = [
+  // TODO(rename): "Raízes do Nordeste" será renomeado para "nexio-core". Enquanto o repo não é renomeado, lemos stats da branch `development` (repoRef) e exibimos um badge de transição. Ao concluir o rename: atualizar title/repoUrl, remover repoRef + statusBadge.
   {
     title: "Raízes do Nordeste — Backend API",
     description: {
@@ -52,6 +61,52 @@ export const projects: Project[] = [
       "Docker",
     ],
     repoUrl: "https://github.com/M4rcosz/raizes-do-nordeste",
+    repoRef: "development",
+    // API sem UI própria: o link útil é o Swagger (docsUrl), não um "Demo".
+    docsUrl: "https://nexios-core.onrender.com/api/docs",
+    statusBadge: {
+      pt: "Em transição para nexio-core",
+      en: "Renaming to nexio-core",
+    },
     featured: true,
+  },
+  {
+    title: "nexio-frontend — Web App",
+    description: {
+      pt: "Interface web da aplicação Raízes do Nordeste (futuro nexio-core): consome os pedidos omnichannel, pagamentos e fidelidade expostos pela API, com foco em UX responsiva e integração em tempo real.",
+      en: "Web interface for the Raízes do Nordeste app (future nexio-core): consumes the omnichannel orders, payments and loyalty exposed by the API, focused on responsive UX and real-time integration.",
+    },
+    highlights: {
+      pt: [
+        "Consome a API do nexio-core (pedidos, pagamentos, fidelidade)",
+        "UI responsiva com feedback em tempo real",
+        "Deploy contínuo na Vercel",
+      ],
+      en: [
+        "Consumes the nexio-core API (orders, payments, loyalty)",
+        "Responsive UI with real-time feedback",
+        "Continuous deployment on Vercel",
+      ],
+    },
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    repoUrl: "https://github.com/M4rcosz/nexio-frontend",
+    demoUrl: "https://nexio-frontend-wheat.vercel.app/",
+    previewUrl: "https://nexio-frontend-wheat.vercel.app/",
+    featured: false,
+  },
+  {
+    title: "nexio-workflow",
+    description: {
+      pt: "Motor de automação e orquestração de workflows do ecossistema nexio — em estágio inicial de desenvolvimento.",
+      en: "Workflow automation and orchestration engine for the nexio ecosystem — in early development.",
+    },
+    tags: ["Java", "Spring Boot", "MongoDB"],
+    repoUrl: "https://github.com/M4rcosz/nexio-workflow",
+    demoUrl: "https://nexio-workflow.onrender.com",
+    statusBadge: {
+      pt: "Estágio inicial · WIP",
+      en: "Early stage · WIP",
+    },
+    featured: false,
   },
 ];

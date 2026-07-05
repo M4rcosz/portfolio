@@ -15,7 +15,8 @@ export default async function Home() {
   );
   const results = await Promise.all(
     githubProjects.map(
-      async (p) => [p.repoUrl, await getRepoStats(p.repoUrl as string)] as const,
+      async (p) =>
+        [p.repoUrl, await getRepoStats(p.repoUrl as string, p.repoRef)] as const,
     ),
   );
   const repoStats: Record<string, RepoStats> = {};

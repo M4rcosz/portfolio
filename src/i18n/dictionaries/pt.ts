@@ -66,6 +66,8 @@ export const pt = {
     since: "desde",
     demo: "Demo",
     code: "Código",
+    docs: "API Docs",
+    openApp: "Abrir aplicação",
   },
   skills: {
     kicker: "stack",

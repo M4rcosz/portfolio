@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowUpRight, CalendarDays, GitCommit, Tag } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  CalendarDays,
+  GitCommit,
+  Tag,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects } from "@/lib/projects";
@@ -8,6 +14,7 @@ import type { RepoStats } from "@/lib/github";
 import { GithubIcon } from "@/components/icons";
 import { useLanguage } from "@/i18n/provider";
 import { Badge } from "@/components/ui/badge";
+import { SitePreview } from "@/components/site-preview";
 import {
   Card,
   CardContent,
@@ -54,15 +61,31 @@ export function Projects({
 
             return (
               <ScrollReveal3D key={project.title} from="right">
-                <Card className="group glow-ring flex h-full flex-col hover:-translate-y-1">
+                <Card
+                  className={cn(
+                    "group glow-ring flex h-full flex-col hover:-translate-y-1",
+                    // projeto em estágio inicial (sem highlights, não featured):
+                    // menos destaque visual do que os demais
+                    !project.featured &&
+                      !project.highlights &&
+                      "opacity-80 hover:opacity-100",
+                  )}
+                >
                   <CardHeader>
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                       <CardTitle className="text-xl transition-colors group-hover:text-primary">
                         {project.title}
                       </CardTitle>
-                      {project.featured ? (
-                        <Badge>{t.projects.featured}</Badge>
-                      ) : null}
+                      <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+                        {project.statusBadge ? (
+                          <Badge variant="outline">
+                            {project.statusBadge[lang]}
+                          </Badge>
+                        ) : null}
+                        {project.featured ? (
+                          <Badge>{t.projects.featured}</Badge>
+                        ) : null}
+                      </div>
                     </div>
 
                     {stats ? (
@@ -97,6 +120,13 @@ export function Projects({
                   </CardHeader>
 
                   <CardContent className="flex flex-1 flex-col gap-5">
+                    {project.previewUrl ? (
+                      <SitePreview
+                        url={project.previewUrl}
+                        title={project.title}
+                      />
+                    ) : null}
+
                     {project.highlights ? (
                       <ul
                         className={cn(
@@ -135,6 +165,17 @@ export function Projects({
                         >
                           {t.projects.demo}
                           <ArrowUpRight className="size-4" />
+                        </a>
+                      ) : null}
+                      {project.docsUrl ? (
+                        <a
+                          href={project.docsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
+                        >
+                          <BookOpen className="size-4" />
+                          {t.projects.docs}
                         </a>
                       ) : null}
                       {project.repoUrl ? (
