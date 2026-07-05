@@ -35,6 +35,7 @@ src/
   components/
     logo.tsx          # monograma "Mz" (currentColor)
     parallax.tsx      # Parallax / ParallaxBackground / ScrollReveal3D (scroll-linked)
+    site-preview.tsx  # preview ao vivo de projeto em iframe (lazy-load + fallback)
     ui/               # button, card, badge, separator (estilo shadcn)
     navbar.tsx        # nav fixa + LanguageToggle
     footer.tsx
@@ -54,14 +55,14 @@ src/
     projects.ts       # dados dos projetos (descrição/highlights bilíngues)
     experience.ts     # experiência profissional (período dinâmico)
     skills.ts         # grupos de skills (frontend/backend/devops)
-    github.ts         # stats do GitHub (commits, início, versão) via API, com cache
+    github.ts         # stats do GitHub (commits, início, versão) via API, com cache; getRepoStats aceita `ref` opcional p/ ler de uma branch específica
     utils.ts          # cn()
 ```
 
 ## Onde editar conteúdo
 
 - **Textos das seções (PT/EN):** `src/i18n/dictionaries/{pt,en}.ts` — manter as duas chaves em sincronia (o tipo `Dictionary` vem de `pt.ts`).
-- **Projetos:** `src/lib/projects.ts` (cada projeto tem `description: { pt, en }`, `tags`, `demoUrl`, `repoUrl`).
+- **Projetos:** `src/lib/projects.ts` (cada projeto tem `description: { pt, en }`, `tags`, `demoUrl`, `repoUrl`; opcionais: `repoRef` — branch p/ ler stats do GitHub —, `docsUrl`, `previewUrl` — preview ao vivo em iframe —, `statusBadge: { pt, en }`).
 - **Skills:** `src/lib/skills.ts` (rótulos dos grupos ficam no dicionário em `skills.groups`).
 - **Contato/identidade:** `src/lib/site.ts`.
 

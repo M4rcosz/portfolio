@@ -26,7 +26,8 @@
 - 🎨 **Red-and-black theme** (rubro-negro), dark by default, design tokens in `globals.css`
 - 🌐 **Route-based i18n** — Portuguese at `/`, English at `/en`, with localized `<title>`, `hreflang` and Open Graph. First-visit language is detected from the browser (`Accept-Language`) and remembered via cookie
 - 🪄 **Scroll animations** — continuous 3D parallax background and scroll-linked reveals (respects `prefers-reduced-motion`)
-- 🐙 **GitHub integration** — project cards show live commit count, start date and `package.json` version, fetched server-side and cached (ISR, 1h)
+- 🐙 **GitHub integration** — project cards show live commit count, start date and `package.json` version, fetched server-side and cached (ISR, 1h); stats can be read from a specific branch per project
+- 🖥️ **Live site previews** — a project card can embed a clickable, lazy-loaded iframe preview of the deployed app (with a graceful fallback), plus an optional link to the API docs
 - 🔖 **Personal brand** — `Mz` monogram logo, favicon, apple icon and social (Open Graph) card
 
 ## Getting started

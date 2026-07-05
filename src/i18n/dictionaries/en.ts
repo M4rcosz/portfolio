@@ -68,6 +68,8 @@ export const en: Dictionary = {
     since: "since",
     demo: "Demo",
     code: "Code",
+    docs: "API Docs",
+    openApp: "Open app",
   },
   skills: {
     kicker: "stack",

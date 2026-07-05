@@ -32,9 +32,12 @@ const REVALIDATE = 3600;
 /** Nº de commits + data do primeiro commit, via header Link da API. */
 async function getCommitInfo(
   base: string,
+  ref?: string,
 ): Promise<{ commits: number; startedAt: string } | null> {
+  // a API de commits filtra o branch por `sha=`, não por `ref=`
+  const sha = ref ? `&sha=${encodeURIComponent(ref)}` : "";
   // 1 commit por página: o nº da última página no header Link == total de commits
-  const head = await fetch(`${base}/commits?per_page=1`, {
+  const head = await fetch(`${base}/commits?per_page=1${sha}`, {
     headers: ghHeaders(),
     next: { revalidate: REVALIDATE },
   });
@@ -46,10 +49,13 @@ async function getCommitInfo(
   if (last) {
     const commits = Number(last[1]);
     // a última página (a mais antiga) traz o primeiro commit
-    const oldest = await fetch(`${base}/commits?per_page=1&page=${commits}`, {
-      headers: ghHeaders(),
-      next: { revalidate: REVALIDATE },
-    });
+    const oldest = await fetch(
+      `${base}/commits?per_page=1&page=${commits}${sha}`,
+      {
+        headers: ghHeaders(),
+        next: { revalidate: REVALIDATE },
+      },
+    );
     const data = oldest.ok ? await oldest.json() : [];
     return { commits, startedAt: data[0]?.commit?.author?.date ?? "" };
   }
@@ -61,10 +67,11 @@ async function getCommitInfo(
   return { commits: data.length, startedAt: data[0]?.commit?.author?.date ?? "" };
 }
 
-/** Lê a versão do package.json do repo (branch default), se existir. */
-async function getVersion(base: string): Promise<string> {
+/** Lê a versão do package.json do repo (branch default ou `ref`), se existir. */
+async function getVersion(base: string, ref?: string): Promise<string> {
   try {
-    const res = await fetch(`${base}/contents/package.json`, {
+    const refQuery = ref ? `?ref=${encodeURIComponent(ref)}` : "";
+    const res = await fetch(`${base}/contents/package.json${refQuery}`, {
       headers: ghHeaders(),
       next: { revalidate: REVALIDATE },
     });
@@ -83,17 +90,24 @@ async function getVersion(base: string): Promise<string> {
  * Busca stats de um repositório público do GitHub: nº de commits, data do
  * primeiro commit e versão (package.json). Server-side, com cache. Retorna
  * null se nem os commits puderem ser lidos (rede, repo privado/vazio).
+ * Passe `ref` para ler os stats de uma branch específica (default: branch default).
  */
-export async function getRepoStats(repoUrl: string): Promise<RepoStats | null> {
+// TODO(rename): o nexio-core (ex-"Raízes do Nordeste") lê os stats da branch `development` temporariamente, via project.repoRef. Após o rename do repositório raizes-do-nordeste → nexio-core e a estabilização, remover o repoRef e voltar a ler do branch default. Ver src/lib/projects.ts.
+export async function getRepoStats(
+  repoUrl: string,
+  ref?: string,
+): Promise<RepoStats | null> {
   const parsed = parseRepo(repoUrl);
   if (!parsed) return null;
 
-  const base = `https://api.github.com/repos/${parsed.owner}/${parsed.repo}`;
+  const base = `https://api.github.com/repos/${encodeURIComponent(
+    parsed.owner,
+  )}/${encodeURIComponent(parsed.repo)}`;
 
   try {
     const [commitInfo, version] = await Promise.all([
-      getCommitInfo(base),
-      getVersion(base),
+      getCommitInfo(base, ref),
+      getVersion(base, ref),
     ]);
     if (!commitInfo) return null;
     return { ...commitInfo, version };
