@@ -27,8 +27,10 @@ import { SectionHeading } from "@/components/section-heading";
 
 export function Projects({
   repoStats = {},
+  previewAvailability = {},
 }: {
   repoStats?: Record<string, RepoStats>;
+  previewAvailability?: Record<string, boolean>;
 }) {
   const { lang, t } = useLanguage();
 
@@ -120,7 +122,8 @@ export function Projects({
                   </CardHeader>
 
                   <CardContent className="flex flex-1 flex-col gap-5">
-                    {project.previewUrl ? (
+                    {project.previewUrl &&
+                    previewAvailability[project.previewUrl] ? (
                       <SitePreview
                         url={project.previewUrl}
                         title={project.title}
