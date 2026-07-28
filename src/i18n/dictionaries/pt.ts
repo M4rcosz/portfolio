@@ -1,8 +1,9 @@
 export const pt = {
   meta: {
     title: "Marcos · Desenvolvedor Backend",
+    ogAlt: "Marcos · Desenvolvedor Backend",
     description:
-      "Portfólio de Marcos — desenvolvedor backend. APIs robustas, arquitetura limpa, modelagem de dados e integrações que aguentam o mundo real.",
+      "Portfólio de Marcos, desenvolvedor backend. APIs robustas, arquitetura limpa, modelagem de dados e integrações que aguentam o mundo real.",
   },
   nav: {
     about: "Sobre",
@@ -35,7 +36,7 @@ export const pt = {
     },
   },
   resume: {
-    title: "Currículo — Marcos Paulo",
+    title: "Currículo · Marcos Paulo",
     download: "Baixar",
     openTab: "Abrir em nova aba",
     close: "Fechar",
@@ -45,7 +46,7 @@ export const pt = {
     title: "Quem está por trás do servidor",
     paragraphs: [
       "Sou desenvolvedor backend focado em construir a parte que ninguém vê, mas todo mundo sente: APIs REST e GraphQL, regras de negócio bem isoladas e bancos de dados que contam a verdade. Trabalho com Node.js, NestJS e PostgreSQL, aplicando Clean Architecture e DDD para que o código continue mudável anos depois do deploy.",
-      "Gosto dos problemas difíceis do backend — idempotência, concorrência, dinheiro em decimal, webhooks como fonte da verdade — e de automações em Python que devolvem horas para o time. Estou sempre estudando e levando o que aprendo para produção.",
+      "Entreguei sozinho uma plataforma de comércio multi-unidade em produção, da API ao frontend, passando por CI e deploy, com mais de 1.900 testes automatizados. Gosto dos problemas difíceis do backend (idempotência, concorrência, dinheiro em decimal, webhooks como fonte da verdade) e, no trabalho, automatizo processos e integro IA (Google Gemini, RAG) em um produto SaaS omnichannel.",
     ],
     highlights: [
       { value: "APIs", label: "REST, GraphQL e webhooks" },
@@ -73,13 +74,15 @@ export const pt = {
     kicker: "stack",
     title: "Tecnologias que uso",
     description:
-      "Minha caixa de ferramentas do dia a dia — do endpoint ao banco, passando pela infraestrutura.",
+      "Minha caixa de ferramentas do dia a dia, do endpoint ao banco, passando pela infraestrutura.",
     core: "core",
     groups: {
       backend: "Backend",
       data: "Banco de Dados",
       architecture: "Arquitetura & Qualidade",
+      security: "Segurança & API",
       devops: "DevOps & Ferramentas",
+      ai: "IA Aplicada",
       frontend: "Frontend",
     },
   },

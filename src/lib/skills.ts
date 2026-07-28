@@ -2,7 +2,9 @@ export type SkillGroupId =
   | "backend"
   | "data"
   | "architecture"
+  | "security"
   | "devops"
+  | "ai"
   | "frontend";
 
 export interface SkillGroup {
@@ -26,31 +28,63 @@ export const skills: SkillGroup[] = [
       "Express",
       "TypeScript",
       "Python",
+      "FastAPI",
       "REST",
       "GraphQL",
     ],
   },
-  {
-    id: "data",
-    items: ["PostgreSQL", "Prisma", "SQL"],
-  },
+  // ordem pensada para o grid de 2 colunas: grupos de tamanho parecido
+  // ficam na mesma linha, senão o card menor sobra com espaço vazio.
   {
     id: "architecture",
     items: [
       "Clean Architecture",
       "DDD",
+      "SOLID",
       "Repository Pattern",
-      "Jest",
-      "Webhooks",
+      "Value Objects",
       "Idempotency",
+      "Jest",
+      "Vitest",
+      "Supertest",
+    ],
+  },
+  {
+    id: "security",
+    items: [
+      "JWT",
+      "Refresh token",
+      "argon2",
+      "RBAC",
+      "Rate limiting",
+      "Webhook HMAC",
+      "OpenAPI/Swagger",
+      "Zod",
     ],
   },
   {
     id: "devops",
-    items: ["Docker", "Git", "CI/CD", "Linux", "Vercel"],
+    items: [
+      "Docker",
+      "GitHub Actions",
+      "CI/CD",
+      "Render",
+      "Supabase",
+      "Vercel",
+      "Git",
+      "Linux",
+    ],
   },
   {
     id: "frontend",
-    items: ["React", "Next.js", "Tailwind CSS"],
+    items: ["Next.js", "React", "Tailwind CSS", "Zustand", "next-intl"],
+  },
+  {
+    id: "data",
+    items: ["PostgreSQL", "Prisma", "SQL", "MongoDB"],
+  },
+  {
+    id: "ai",
+    items: ["Google Gemini", "RAG", "Chatbots"],
   },
 ];

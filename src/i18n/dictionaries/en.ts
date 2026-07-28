@@ -3,8 +3,9 @@ import type { Dictionary } from "./pt";
 export const en: Dictionary = {
   meta: {
     title: "Marcos · Backend Developer",
+    ogAlt: "Marcos · Backend Developer",
     description:
-      "Marcos's portfolio — backend developer. Robust APIs, clean architecture, data modeling and integrations that survive the real world.",
+      "Marcos's portfolio. Backend developer: robust APIs, clean architecture, data modeling and integrations that survive the real world.",
   },
   nav: {
     about: "About",
@@ -37,7 +38,7 @@ export const en: Dictionary = {
     },
   },
   resume: {
-    title: "Resume — Marcos Paulo",
+    title: "Resume · Marcos Paulo",
     download: "Download",
     openTab: "Open in new tab",
     close: "Close",
@@ -47,7 +48,7 @@ export const en: Dictionary = {
     title: "Who's behind the server",
     paragraphs: [
       "I'm a backend developer focused on building the part nobody sees but everybody feels: REST and GraphQL APIs, well-isolated business rules and databases that tell the truth. I work with Node.js, NestJS and PostgreSQL, applying Clean Architecture and DDD so the code stays changeable years after deploy.",
-      "I enjoy the hard backend problems — idempotency, concurrency, money as decimals, webhooks as the source of truth — and Python automations that give hours back to the team. I'm always learning and shipping what I learn to production.",
+      "I shipped a multi-unit commerce platform to production on my own, from the API to the frontend through CI and deploy, with more than 1,900 automated tests. I enjoy the hard backend problems (idempotency, concurrency, money as decimals, webhooks as the source of truth) and at work I automate processes and integrate AI (Google Gemini, RAG) into an omnichannel SaaS product.",
     ],
     highlights: [
       { value: "APIs", label: "REST, GraphQL and webhooks" },
@@ -75,13 +76,15 @@ export const en: Dictionary = {
     kicker: "stack",
     title: "Technologies I use",
     description:
-      "My day-to-day toolbox — from the endpoint to the database, through the infrastructure.",
+      "My day-to-day toolbox, from the endpoint to the database, through the infrastructure.",
     core: "core",
     groups: {
       backend: "Backend",
       data: "Databases",
       architecture: "Architecture & Quality",
+      security: "Security & API",
       devops: "DevOps & Tools",
+      ai: "Applied AI",
       frontend: "Frontend",
     },
   },
