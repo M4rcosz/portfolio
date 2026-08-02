@@ -32,22 +32,18 @@ export const experiences: Experience[] = [
     },
     highlights: {
       pt: [
-        "Integrações com IA na plataforma omnichannel SaaS, potencializando automação e atendimento",
-        "Troubleshooting e resolução de problemas em workflows complexos",
-        "Consumo e integração de APIs (REST e GraphQL) e consultas em SQL",
-        "Automações em Python que economizaram ~20h semanais no período de implantação",
-        "Desenvolvimento de aplicações internas que integram sistemas e aumentam a eficiência",
-        "Aprimorei um gerador de RAG que produz bases de conhecimento (RAG) no Gemini, elevando a qualidade das respostas assistidas por IA",
-        "Domínio das regras de negócio com contato direto com o produto e o cliente",
+        "Automações e aplicações internas em Python que eliminaram trabalho manual recorrente de configuração da plataforma, economizando cerca de 20 horas semanais da equipe",
+        "Integração da API do Google Gemini em um chatbot de atendimento automático e evolução de uma aplicação de RAG existente, ajustando o pipeline de recuperação de contexto para respostas mais precisas",
+        "Integração e consumo de APIs REST e GraphQL, com consultas SQL para diagnóstico e suporte ao produto",
+        "Diagnóstico e resolução de problemas em workflows complexos da plataforma junto ao time de engenharia",
+        "Contato direto com produto e engenharia, com domínio das regras de negócio da plataforma",
       ],
       en: [
-        "AI integrations in the omnichannel SaaS platform, powering automation and support",
-        "Troubleshooting and problem-solving across complex workflows",
-        "Consuming and integrating APIs (REST and GraphQL) and writing SQL queries",
-        "Python automations that saved ~20h per week during the rollout phase",
-        "Building internal applications that integrate systems and boost efficiency",
-        "Improved a RAG generator that builds RAG knowledge bases on Gemini, raising the quality of AI-assisted answers",
-        "Strong grasp of business rules with direct contact with product and customers",
+        "Python automations and internal apps that removed recurring manual platform setup work, saving the team around 20 hours a week",
+        "Integrated the Google Gemini API into an automated support chatbot and evolved an existing RAG application, tuning the context retrieval pipeline for more accurate answers",
+        "Integrate and consume REST and GraphQL APIs, writing SQL queries for product diagnosis and support",
+        "Diagnose and fix problems in complex platform workflows alongside the engineering team",
+        "Direct contact with product and engineering, with a strong grasp of the platform's business rules",
       ],
     },
     tags: [
@@ -90,7 +86,7 @@ function formatDuration(months: number, lang: Lang): string {
 }
 
 /**
- * Monta o período: "Fev. de 2026 — Presente · 4 meses". A duração dos
+ * Monta o período: "Fev. de 2026 - Presente · 4 meses". A duração dos
  * empregos atuais é calculada até a data de hoje (atualiza sozinha).
  */
 export function formatExperiencePeriod(exp: Experience, lang: Lang): string {
@@ -114,5 +110,5 @@ export function formatExperiencePeriod(exp: Experience, lang: Lang): string {
     (end.getFullYear() - start.getFullYear()) * 12 +
     (end.getMonth() - start.getMonth());
 
-  return `${startLabel} — ${endLabel} · ${formatDuration(months, lang)}`;
+  return `${startLabel} - ${endLabel} · ${formatDuration(months, lang)}`;
 }

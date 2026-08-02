@@ -60,6 +60,9 @@ export function Projects({
               ? repoStats[project.repoUrl]
               : undefined;
             const startLabel = stats ? formatStart(stats.startedAt) : null;
+            const hasLinks = Boolean(
+              project.demoUrl || project.docsUrl || project.repoUrl,
+            );
 
             return (
               <ScrollReveal3D key={project.title} from="right">
@@ -134,8 +137,10 @@ export function Projects({
                       <ul
                         className={cn(
                           "space-y-2.5",
+                          // duas colunas só a partir de lg: em telas menores os
+                          // bullets longos ficariam com ~38 caracteres por linha
                           project.featured &&
-                            "sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-2.5 sm:space-y-0",
+                            "lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-2.5 lg:space-y-0",
                         )}
                       >
                         {project.highlights[lang].map((highlight) => (
@@ -150,7 +155,13 @@ export function Projects({
                       </ul>
                     ) : null}
 
-                    <div className="flex flex-wrap gap-2">
+                    <div
+                      className={cn(
+                        "flex flex-wrap gap-2",
+                        // sem links, as tags é que fecham o card
+                        !hasLinks && "mt-auto",
+                      )}
+                    >
                       {project.tags.map((tag) => (
                         <Badge key={tag} variant="secondary">
                           {tag}
@@ -158,41 +169,43 @@ export function Projects({
                       ))}
                     </div>
 
-                    <div className="mt-auto flex items-center gap-4 pt-2 text-sm">
-                      {project.demoUrl ? (
-                        <a
-                          href={project.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
-                        >
-                          {t.projects.demo}
-                          <ArrowUpRight className="size-4" />
-                        </a>
-                      ) : null}
-                      {project.docsUrl ? (
-                        <a
-                          href={project.docsUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <BookOpen className="size-4" />
-                          {t.projects.docs}
-                        </a>
-                      ) : null}
-                      {project.repoUrl ? (
-                        <a
-                          href={project.repoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <GithubIcon className="size-4" />
-                          {t.projects.code}
-                        </a>
-                      ) : null}
-                    </div>
+                    {hasLinks ? (
+                      <div className="mt-auto flex items-center gap-4 pt-2 text-sm">
+                        {project.demoUrl ? (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
+                          >
+                            {t.projects.demo}
+                            <ArrowUpRight className="size-4" />
+                          </a>
+                        ) : null}
+                        {project.docsUrl ? (
+                          <a
+                            href={project.docsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
+                          >
+                            <BookOpen className="size-4" />
+                            {t.projects.docs}
+                          </a>
+                        ) : null}
+                        {project.repoUrl ? (
+                          <a
+                            href={project.repoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
+                          >
+                            <GithubIcon className="size-4" />
+                            {t.projects.code}
+                          </a>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </CardContent>
                 </Card>
               </ScrollReveal3D>

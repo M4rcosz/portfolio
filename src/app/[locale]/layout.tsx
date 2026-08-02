@@ -18,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const lang: Lang = isLocale(locale) ? locale : "pt";
-  const { title, description } = dictionaries[lang].meta;
+  const { title, description, ogAlt } = dictionaries[lang].meta;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -43,7 +43,7 @@ export async function generateMetadata({
           url: "/brand/marcos-og.png",
           width: 1200,
           height: 630,
-          alt: "Marcos — Desenvolvedor Fullstack",
+          alt: ogAlt,
         },
       ],
     },

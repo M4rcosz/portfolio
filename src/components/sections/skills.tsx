@@ -5,6 +5,8 @@ import {
   Code2,
   Database,
   Server,
+  ShieldCheck,
+  Sparkles,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -20,7 +22,9 @@ const groupIcons: Record<SkillGroupId, LucideIcon> = {
   backend: Server,
   data: Database,
   architecture: Boxes,
+  security: ShieldCheck,
   devops: Wrench,
+  ai: Sparkles,
   frontend: Code2,
 };
 
@@ -42,9 +46,17 @@ function SkillCard({ group, core }: { group: SkillGroup; core: string }) {
             group.featured ? "size-11" : "size-10",
           )}
         >
-          <Icon className={group.featured ? "size-6" : "size-5"} />
+          <Icon
+            aria-hidden="true"
+            className={group.featured ? "size-6" : "size-5"}
+          />
         </span>
-        <h3 className={cn("font-semibold", group.featured ? "text-xl" : "text-lg")}>
+        <h3
+          className={cn(
+            "font-semibold",
+            group.featured ? "text-xl" : "text-lg",
+          )}
+        >
           {t.skills.groups[group.id]}
         </h3>
         {group.featured ? (
@@ -91,7 +103,7 @@ export function Skills() {
             {rest.map((group, i) => (
               <Reveal
                 key={group.id}
-                delay={i * 0.1}
+                delay={(i % 2) * 0.1}
                 direction={i % 2 === 0 ? "left" : "right"}
                 tilt
               >

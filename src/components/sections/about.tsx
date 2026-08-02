@@ -13,7 +13,7 @@ export function About() {
       <div className="mx-auto max-w-5xl">
         <SectionHeading kicker={t.about.kicker} title={t.about.title} />
 
-        <div className="mt-12 grid gap-10 sm:mt-14 lg:grid-cols-[1.5fr_1fr] lg:items-center lg:gap-12">
+        <div className="mt-12 grid gap-10 sm:mt-14 lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-12">
           <Parallax x={-22}>
             <Reveal direction="left" tilt className="space-y-5">
               {t.about.paragraphs.map((paragraph, i) => (
