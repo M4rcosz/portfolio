@@ -26,9 +26,8 @@ export interface Project {
  * `description` e `highlights` aceitam os dois idiomas (pt / en).
  */
 export const projects: Project[] = [
-  // TODO(rename): "Raízes do Nordeste" será renomeado para "nexio-core". Enquanto o repo não é renomeado, lemos stats da branch `development` (repoRef) e exibimos um badge de transição. Ao concluir o rename: atualizar title/repoUrl, remover repoRef + statusBadge.
   {
-    title: "Raízes do Nordeste · Backend API",
+    title: "nexio-core · Backend API",
     description: {
       pt: "API de gestão para uma rede de restaurantes multi-unidade (franquias): pedidos omnichannel (app, web, totem, balcão, retirada), pagamentos e programa de fidelidade, construída com Clean Architecture e DDD por bounded context.",
       en: "Management API for a multi-unit restaurant chain (franchises): omnichannel orders (app, web, kiosk, counter, pickup), payments and a loyalty program, built with Clean Architecture and DDD per bounded context.",
@@ -67,21 +66,16 @@ export const projects: Project[] = [
       "Render",
       "Supabase",
     ],
-    repoUrl: "https://github.com/M4rcosz/raizes-do-nordeste",
-    repoRef: "development",
+    repoUrl: "https://github.com/M4rcosz/nexio-core",
     // API sem UI própria: o link útil é o Swagger (docsUrl), não um "Demo".
     docsUrl: "https://nexios-core.onrender.com/api/docs",
-    statusBadge: {
-      pt: "Em transição para nexio-core",
-      en: "Renaming to nexio-core",
-    },
     featured: true,
   },
   {
     title: "nexio-frontend · Web App",
     description: {
-      pt: "Interface web da aplicação Raízes do Nordeste (futuro nexio-core): consome os pedidos omnichannel, pagamentos e fidelidade expostos pela API, com foco em UX responsiva e integração em tempo real.",
-      en: "Web interface for the Raízes do Nordeste app (future nexio-core): consumes the omnichannel orders, payments and loyalty exposed by the API, focused on responsive UX and real-time integration.",
+      pt: "Interface web do nexio-core: consome os pedidos omnichannel, pagamentos e fidelidade expostos pela API, com foco em UX responsiva e integração em tempo real.",
+      en: "Web interface for nexio-core: consumes the omnichannel orders, payments and loyalty exposed by the API, focused on responsive UX and real-time integration.",
     },
     highlights: {
       pt: [

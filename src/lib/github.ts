@@ -92,7 +92,6 @@ async function getVersion(base: string, ref?: string): Promise<string> {
  * null se nem os commits puderem ser lidos (rede, repo privado/vazio).
  * Passe `ref` para ler os stats de uma branch específica (default: branch default).
  */
-// TODO(rename): o nexio-core (ex-"Raízes do Nordeste") lê os stats da branch `development` temporariamente, via project.repoRef. Após o rename do repositório raizes-do-nordeste → nexio-core e a estabilização, remover o repoRef e voltar a ler do branch default. Ver src/lib/projects.ts.
 export async function getRepoStats(
   repoUrl: string,
   ref?: string,
