@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { projects } from "@/lib/projects";
+import type { Project } from "@/lib/projects";
 import type { RepoStats } from "@/lib/github";
 import { GithubIcon } from "@/components/icons";
 import { useLanguage } from "@/i18n/provider";
@@ -26,9 +26,12 @@ import { ScrollReveal3D } from "@/components/parallax";
 import { SectionHeading } from "@/components/section-heading";
 
 export function Projects({
+  projects,
   repoStats = {},
   previewAvailability = {},
 }: {
+  /** vem do servidor já sem os repos de projetos privados. */
+  projects: Project[];
   repoStats?: Record<string, RepoStats>;
   previewAvailability?: Record<string, boolean>;
 }) {
@@ -56,12 +59,13 @@ export function Projects({
 
         <div className="mt-12 flex flex-col gap-6 sm:mt-14 sm:gap-8">
           {projects.map((project) => {
-            const stats = project.repoUrl
-              ? repoStats[project.repoUrl]
-              : undefined;
+            const stats = repoStats[project.title];
             const startLabel = stats ? formatStart(stats.startedAt) : null;
+            // repo privado: stats aparecem, mas o código nunca é linkado
+            // (o servidor já remove esses repos; aqui é só defesa extra)
+            const codeRepos = project.private ? [] : (project.repos ?? []);
             const hasLinks = Boolean(
-              project.demoUrl || project.docsUrl || project.repoUrl,
+              project.demoUrl || project.docsUrl || codeRepos.length > 0,
             );
 
             return (
@@ -170,7 +174,7 @@ export function Projects({
                     </div>
 
                     {hasLinks ? (
-                      <div className="mt-auto flex items-center gap-4 pt-2 text-sm">
+                      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-2 text-sm">
                         {project.demoUrl ? (
                           <a
                             href={project.demoUrl}
@@ -193,17 +197,20 @@ export function Projects({
                             {t.projects.docs}
                           </a>
                         ) : null}
-                        {project.repoUrl ? (
+                        {codeRepos.map((repo) => (
                           <a
-                            href={project.repoUrl}
+                            key={repo.url}
+                            href={repo.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 font-medium text-muted-foreground transition-colors hover:text-primary"
                           >
                             <GithubIcon className="size-4" />
-                            {t.projects.code}
+                            {repo.label
+                              ? `${t.projects.code} · ${repo.label}`
+                              : t.projects.code}
                           </a>
-                        ) : null}
+                        ))}
                       </div>
                     ) : null}
                   </CardContent>
