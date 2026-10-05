@@ -31,6 +31,8 @@ export const skills: SkillGroup[] = [
       "FastAPI",
       "REST",
       "GraphQL",
+      "gRPC",
+      "Go (learning)",
     ],
   },
   // ordem pensada para o grid de 2 colunas: grupos de tamanho parecido
@@ -41,7 +43,9 @@ export const skills: SkillGroup[] = [
       "Clean Architecture",
       "DDD",
       "SOLID",
+      "Dependency Injection",
       "Repository Pattern",
+      "Event-driven",
       "Value Objects",
       "Idempotency",
       "Jest",
@@ -53,6 +57,7 @@ export const skills: SkillGroup[] = [
     id: "security",
     items: [
       "JWT",
+      "OIDC",
       "Refresh token",
       "argon2",
       "RBAC",
@@ -66,6 +71,7 @@ export const skills: SkillGroup[] = [
     id: "devops",
     items: [
       "Docker",
+      "Docker Compose",
       "GitHub Actions",
       "CI/CD",
       "Render",
@@ -73,6 +79,8 @@ export const skills: SkillGroup[] = [
       "Vercel",
       "Git",
       "Linux",
+      "WSL",
+      "NATS JetStream",
     ],
   },
   {
@@ -81,10 +89,10 @@ export const skills: SkillGroup[] = [
   },
   {
     id: "data",
-    items: ["PostgreSQL", "Prisma", "SQL", "MongoDB"],
+    items: ["PostgreSQL", "Prisma", "Drizzle", "SQL", "Redis", "MongoDB"],
   },
   {
     id: "ai",
-    items: ["Google Gemini", "RAG", "Chatbots"],
+    items: ["LLMs", "Tool calling", "RAG", "Google Gemini", "Chatbots"],
   },
 ];

@@ -46,7 +46,7 @@ export const pt = {
     title: "Quem está por trás do servidor",
     paragraphs: [
       "Sou desenvolvedor backend focado em construir a parte que ninguém vê, mas todo mundo sente: APIs REST e GraphQL, regras de negócio bem isoladas e bancos de dados que contam a verdade. Trabalho com Node.js, NestJS e PostgreSQL, aplicando Clean Architecture e DDD para que o código continue mudável anos depois do deploy.",
-      "Entreguei sozinho uma plataforma de comércio multi-unidade em produção, da API ao frontend, passando por CI e deploy, com mais de 1.900 testes automatizados. Gosto dos problemas difíceis do backend (idempotência, concorrência, dinheiro em decimal, webhooks como fonte da verdade) e, no trabalho, automatizo processos e integro IA (Google Gemini, RAG) em um produto SaaS omnichannel.",
+      "Construí e coloquei no ar sozinho o Nexio, uma plataforma de pedidos multi-unidade, da API ao frontend, passando por CI e deploy, com mais de 1.900 testes automatizados. Hoje desenvolvo o zNuvo, um SaaS multi-tenant orientado a eventos com NestJS, Go, NATS e PostgreSQL com Row-Level Security. Gosto dos problemas difíceis do backend (idempotência, concorrência, dinheiro em decimal, webhooks como fonte da verdade) e, na cVortex, crio automações que economizam ~20 horas semanais e integro LLMs com tool calling e RAG.",
     ],
     highlights: [
       { value: "APIs", label: "REST, GraphQL e webhooks" },

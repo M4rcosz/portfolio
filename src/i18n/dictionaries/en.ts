@@ -48,7 +48,7 @@ export const en: Dictionary = {
     title: "Who's behind the server",
     paragraphs: [
       "I'm a backend developer focused on building the part nobody sees but everybody feels: REST and GraphQL APIs, well-isolated business rules and databases that tell the truth. I work with Node.js, NestJS and PostgreSQL, applying Clean Architecture and DDD so the code stays changeable years after deploy.",
-      "I shipped a multi-unit commerce platform to production on my own, from the API to the frontend through CI and deploy, with more than 1,900 automated tests. I enjoy the hard backend problems (idempotency, concurrency, money as decimals, webhooks as the source of truth) and at work I automate processes and integrate AI (Google Gemini, RAG) into an omnichannel SaaS product.",
+      "I built and shipped Nexio on my own, a multi-unit ordering platform, from the API to the frontend through CI and deploy, with more than 1,900 automated tests. Today I'm building zNuvo, an event-driven multi-tenant SaaS with NestJS, Go, NATS and PostgreSQL Row-Level Security. I enjoy the hard backend problems (idempotency, concurrency, money as decimals, webhooks as the source of truth), and at cVortex I build automations that save ~20 hours a week and integrate LLMs with tool calling and RAG.",
     ],
     highlights: [
       { value: "APIs", label: "REST, GraphQL and webhooks" },

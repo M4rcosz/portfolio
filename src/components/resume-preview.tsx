@@ -8,10 +8,11 @@ import { Download, ExternalLink, Eye, FileText, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { buttonVariants } from "@/components/ui/button";
-import { useT } from "@/i18n/provider";
+import { useLanguage } from "@/i18n/provider";
 
 export function ResumePreview() {
-  const t = useT();
+  const { lang, t } = useLanguage();
+  const resume = site.resume[lang];
   const [open, setOpen] = React.useState(false);
 
   // Esc para fechar + trava o scroll do body enquanto aberto
@@ -72,15 +73,15 @@ export function ResumePreview() {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <a
-                        href={site.resume}
-                        download="Marcos-Paulo-CV.pdf"
+                        href={resume}
+                        download={lang === "pt" ? "Marcos-Paulo-CV.pdf" : "Marcos-Paulo-Resume.pdf"}
                         className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                       >
                         <Download className="size-4" />
                         <span className="hidden sm:inline">{t.resume.download}</span>
                       </a>
                       <a
-                        href={site.resume}
+                        href={resume}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={t.resume.openTab}
@@ -101,7 +102,7 @@ export function ResumePreview() {
 
                   <div className="flex-1 overflow-hidden bg-muted">
                     <iframe
-                      src={`${site.resume}#view=FitH`}
+                      src={`${resume}#view=FitH`}
                       title={t.resume.title}
                       className="size-full"
                     />
