@@ -18,8 +18,9 @@ function ghHeaders(): Record<string, string> {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   };
-  // Opcional: define GITHUB_TOKEN no .env.local para subir o rate limit
-  // de 60 para 5.000 req/h. Funciona sem token também.
+  // GITHUB_TOKEN (só no servidor) sobe o rate limit de 60 para 5.000 req/h e
+  // é obrigatório para ler stats de repos privados (ex.: zNuvo). Use um PAT
+  // fine-grained restrito aos repos privados, com Contents + Metadata: read.
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
@@ -87,7 +88,7 @@ async function getVersion(base: string, ref?: string): Promise<string> {
 }
 
 /**
- * Busca stats de um repositório público do GitHub: nº de commits, data do
+ * Busca stats de um repositório do GitHub (privado só com GITHUB_TOKEN): nº de commits, data do
  * primeiro commit e versão (package.json). Server-side, com cache. Retorna
  * null se nem os commits puderem ser lidos (rede, repo privado/vazio).
  * Passe `ref` para ler os stats de uma branch específica (default: branch default).

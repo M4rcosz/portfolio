@@ -1,5 +1,13 @@
 import type { Lang } from "@/i18n/provider";
 
+export interface ProjectRepo {
+  /** rótulo do link quando há mais de um repo (ex.: "API", "Web"). */
+  label?: string;
+  url: string;
+  /** branch/ref para ler stats do GitHub (default: branch default do repo). */
+  ref?: string;
+}
+
 export interface Project {
   title: string;
   /** Descrição por idioma. */
@@ -8,9 +16,13 @@ export interface Project {
   /** destaques de arquitetura/implementação (bullets, por idioma). */
   highlights?: Record<Lang, string[]>;
   demoUrl?: string;
-  repoUrl?: string;
-  /** branch/ref para ler stats do GitHub (default: branch default do repo). */
-  repoRef?: string;
+  /** repositórios do projeto; os stats do GitHub são combinados entre eles. */
+  repos?: ProjectRepo[];
+  /**
+   * repo privado: os stats são lidos no servidor (exige GITHUB_TOKEN com
+   * acesso de leitura ao repo), mas os links de código nunca são exibidos.
+   */
+  private?: boolean;
   /** link para documentação/Swagger da API. */
   docsUrl?: string;
   /** URL para preview em iframe ao vivo (clicável). */
@@ -27,10 +39,10 @@ export interface Project {
  */
 export const projects: Project[] = [
   {
-    title: "nexio-core · Backend API",
+    title: "Nexio · Restaurant platform (API + Web)",
     description: {
-      pt: "API de gestão para uma rede de restaurantes multi-unidade (franquias): pedidos omnichannel (app, web, totem, balcão, retirada), pagamentos e programa de fidelidade, construída com Clean Architecture e DDD por bounded context.",
-      en: "Management API for a multi-unit restaurant chain (franchises): omnichannel orders (app, web, kiosk, counter, pickup), payments and a loyalty program, built with Clean Architecture and DDD per bounded context.",
+      pt: "Plataforma de gestão para uma rede de restaurantes multi-unidade (franquias): API com pedidos omnichannel (app, web, totem, balcão, retirada), pagamentos e programa de fidelidade, construída com Clean Architecture e DDD por bounded context, e um web app com área do cliente, PDV, totem e admin.",
+      en: "Management platform for a multi-unit restaurant chain (franchises): an API with omnichannel orders (app, web, kiosk, counter, pickup), payments and a loyalty program, built with Clean Architecture and DDD per bounded context, plus a web app with customer area, POS, kiosk and admin.",
     },
     highlights: {
       pt: [
@@ -40,6 +52,7 @@ export const projects: Project[] = [
         "Estoque como ledger append-only: saldo derivado das transações e dedução atômica dentro da criação do pedido, sem update destrutivo de quantidade",
         "Assistente de IA com Google Gemini medido por token: débito de saldo e registro de consumo gravados na mesma transação, com teto de contexto para limitar o custo por chamada",
         "Autenticação JWT com refresh token rotativo e detecção de reúso, hash argon2, RBAC e escopo por unidade, paginação keyset e upload direto ao storage por URL assinada",
+        "Web app em Next.js com área do cliente, PDV, totem e admin, JWT em cookie httpOnly, i18n PT/EN e deploy contínuo na Vercel",
         "1.846 testes unitários e 97 e2e, CI no GitHub Actions a cada push (type-check, lint, testes, build) e imagem Docker no Render com PostgreSQL gerenciado no Supabase",
       ],
       en: [
@@ -49,6 +62,7 @@ export const projects: Project[] = [
         "Inventory as an append-only ledger: balance derived from transactions and atomic deduction inside order creation, with no destructive quantity update",
         "Token-metered AI assistant with Google Gemini: balance debit and usage record written in the same transaction, with a context cap to bound the cost per call",
         "JWT auth with rotating refresh tokens and reuse detection, argon2 hashing, RBAC scoped per unit, keyset pagination and direct-to-storage upload via signed URL",
+        "Next.js web app with customer area, POS, kiosk and admin, JWT in an httpOnly cookie, PT/EN i18n and continuous deployment on Vercel",
         "1,846 unit tests and 97 e2e, CI on GitHub Actions on every push (type-check, lint, tests, build) and a Docker image on Render with managed PostgreSQL on Supabase",
       ],
     },
@@ -60,59 +74,72 @@ export const projects: Project[] = [
       "Prisma",
       "DDD",
       "Clean Architecture",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Zustand",
       "Jest",
       "Docker",
       "GitHub Actions",
       "Render",
+      "Vercel",
       "Supabase",
     ],
-    repoUrl: "https://github.com/M4rcosz/nexio-core",
-    // API sem UI própria: o link útil é o Swagger (docsUrl), não um "Demo".
+    repos: [
+      { label: "API", url: "https://github.com/M4rcosz/nexio-core", ref: "main" },
+      { label: "Web", url: "https://github.com/M4rcosz/nexio-frontend" },
+    ],
     docsUrl: "https://nexios-core.onrender.com/api/docs",
+    demoUrl: "https://nexio-frontend-wheat.vercel.app/",
+    previewUrl: "https://nexio-frontend-wheat.vercel.app/",
     featured: true,
   },
   {
-    title: "nexio-frontend · Web App",
+    title: "zNuvo · Omnichannel support SaaS",
     description: {
-      pt: "Interface web do nexio-core: consome os pedidos omnichannel, pagamentos e fidelidade expostos pela API, com foco em UX responsiva e integração em tempo real.",
-      en: "Web interface for nexio-core: consumes the omnichannel orders, payments and loyalty exposed by the API, focused on responsive UX and real-time integration.",
+      pt: "SaaS multi-tenant de atendimento ao cliente: cada empresa conecta seus canais (widget de chat no site hoje; WhatsApp e Instagram no roadmap) e os agentes respondem todas as conversas em tempo real a partir de um único painel. Monorepo poliglota com serviços em NestJS e Go.",
+      en: "Multi-tenant customer support SaaS: each company connects its channels (a chat widget on its website today; WhatsApp and Instagram on the roadmap) and agents answer every conversation in real time from a single dashboard. Polyglot monorepo with NestJS and Go services.",
     },
     highlights: {
       pt: [
-        "Área do cliente, PDV, totem e admin sobre a API do nexio-core (pedidos, pagamentos, fidelidade)",
-        "Autenticação com JWT em cookie httpOnly e i18n PT/EN",
-        "UI responsiva com feedback em tempo real e deploy contínuo na Vercel",
+        "Arquitetura hexagonal + DDD com outbox transacional publicando eventos no NATS JetStream; contratos em Protobuf e gRPC interno entre os serviços",
+        "Serviço de realtime em Go com WebSocket (protocolo versionado), autenticação por ticket assinado de uso único e encerramento dos sockets de membros desativados",
+        "Multi-tenancy com Row-Level Security no PostgreSQL e usuários de banco, Redis e NATS com privilégio mínimo por serviço",
+        "Autenticação via Zitadel (OIDC + PKCE, tokens só em memória), convites por e-mail e signup self-service provisionado por um worker em Go com retry e dead letter",
+        "Painel em React com CSP estrita e widget em Preact isolado (launcher em Shadow DOM + painel em iframe, com frame-ancestors por chave)",
+        "Observabilidade com OpenTelemetry e Grafana, testes e2e com Playwright, testes de carga com k6 e CI no GitHub Actions",
       ],
       en: [
-        "Customer area, POS, kiosk and admin on top of the nexio-core API (orders, payments, loyalty)",
-        "Auth with JWT in an httpOnly cookie and PT/EN i18n",
-        "Responsive UI with real-time feedback and continuous deployment on Vercel",
+        "Hexagonal architecture + DDD with a transactional outbox publishing events to NATS JetStream; Protobuf contracts and internal gRPC between services",
+        "Realtime service in Go over WebSocket (versioned protocol), with single-use signed tickets and closing the sockets of deactivated members",
+        "Multi-tenancy with PostgreSQL Row-Level Security and least-privilege database, Redis and NATS users per service",
+        "Auth via Zitadel (OIDC + PKCE, tokens in memory only), email invitations and self-service signup provisioned by a Go worker with retries and dead letters",
+        "React dashboard with a strict CSP and an isolated Preact widget (Shadow DOM launcher + iframe panel, with per-key frame-ancestors)",
+        "Observability with OpenTelemetry and Grafana, Playwright e2e tests, k6 load tests and CI on GitHub Actions",
       ],
     },
     tags: [
-      "Next.js",
-      "React",
+      "NestJS",
+      "Go",
       "TypeScript",
-      "Tailwind CSS",
-      "Zustand",
-      "next-intl",
+      "PostgreSQL",
+      "NATS JetStream",
+      "gRPC",
+      "Protobuf",
+      "Redis",
+      "React",
+      "Preact",
+      "Zitadel",
+      "OpenTelemetry",
+      "Docker",
+      "Playwright",
+      "k6",
     ],
-    repoUrl: "https://github.com/M4rcosz/nexio-frontend",
-    demoUrl: "https://nexio-frontend-wheat.vercel.app/",
-    previewUrl: "https://nexio-frontend-wheat.vercel.app/",
-    featured: false,
-  },
-  {
-    title: "nexio-workflow",
-    description: {
-      pt: "Motor de automação e orquestração de workflows do ecossistema nexio, em estágio inicial de desenvolvimento.",
-      en: "Workflow automation and orchestration engine for the nexio ecosystem, in early development.",
-    },
-    tags: ["Java", "Spring Boot", "MongoDB"],
-    repoUrl: "https://github.com/M4rcosz/nexio-workflow",
+    repos: [{ url: "https://github.com/M4rcosz/znuvo" }],
+    private: true,
     statusBadge: {
-      pt: "Estágio inicial · WIP",
-      en: "Early stage · WIP",
+      pt: "Em desenvolvimento · repositório privado",
+      en: "In development · private repo",
     },
     featured: false,
   },

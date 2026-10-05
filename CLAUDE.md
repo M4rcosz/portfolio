@@ -55,14 +55,14 @@ src/
     projects.ts       # dados dos projetos (descrição/highlights bilíngues)
     experience.ts     # experiência profissional (período dinâmico)
     skills.ts         # grupos de skills (frontend/backend/devops)
-    github.ts         # stats do GitHub (commits, início, versão) via API, com cache; getRepoStats aceita `ref` opcional p/ ler de uma branch específica
+    github.ts         # stats do GitHub (commits, início, versão) via API, com cache; getRepoStats aceita `ref` opcional p/ ler de uma branch específica; repos privados exigem `GITHUB_TOKEN` (PAT fine-grained, só leitura)
     utils.ts          # cn()
 ```
 
 ## Onde editar conteúdo
 
 - **Textos das seções (PT/EN):** `src/i18n/dictionaries/{pt,en}.ts` — manter as duas chaves em sincronia (o tipo `Dictionary` vem de `pt.ts`).
-- **Projetos:** `src/lib/projects.ts` (cada projeto tem `description: { pt, en }`, `tags`, `demoUrl`, `repoUrl`; opcionais: `repoRef` — branch p/ ler stats do GitHub —, `docsUrl`, `previewUrl` — preview ao vivo em iframe —, `statusBadge: { pt, en }`).
+- **Projetos:** `src/lib/projects.ts` (cada projeto tem `description: { pt, en }`, `tags`; opcionais: `demoUrl`, `repos: [{ label?, url, ref? }]` — um ou mais repos; os stats do GitHub são somados e `ref` escolhe a branch —, `private` — repo privado: stats lidos com `GITHUB_TOKEN`, links de código ocultos —, `docsUrl`, `previewUrl` — preview ao vivo em iframe —, `statusBadge: { pt, en }`).
 - **Skills:** `src/lib/skills.ts` (rótulos dos grupos ficam no dicionário em `skills.groups`).
 - **Contato/identidade:** `src/lib/site.ts`.
 
